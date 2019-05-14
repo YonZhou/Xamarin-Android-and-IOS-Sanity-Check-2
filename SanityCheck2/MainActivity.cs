@@ -18,7 +18,7 @@ using pdftron.PDF.Tools.Utils;
 
 namespace SanityCheck2
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = false)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         protected PDFViewCtrl mPdfViewCtrl;
@@ -66,33 +66,84 @@ namespace SanityCheck2
             var mToolManager = pdftron.PDF.Config.ToolManagerBuilder.From()
                 .SetEditInk(true)
                 .SetOpenToolbar(true)
-                .SetBuildInPageIndicator(false)
                 .SetCopyAnnot(true)
                 .Build(this, mPdfViewCtrl);
 
-            mPdfViewCtrl.ToolManager = mToolManager;
+            var thumbDiag = ThumbnailsViewFragment.NewInstance();
+            thumbDiag.SetPdfViewCtrl(mPdfViewCtrl);
+
             mPdfViewCtrl.OpenUrlAsync("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf", this.CacheDir.AbsolutePath, null, httpRequestOptions);
 
 
-            // setup for documentviewer activity, integrates pdfviewctrl configurations
-            var pdfviewctrlconfig = PDFViewCtrlConfig.GetDefaultConfig(this)
-                .SetUrlExtraction(true);
 
-            var config = new pdftron.PDF.Config.ViewerConfig.Builder()
-            .OpenUrlCachePath(this.CacheDir.AbsolutePath)
-                .PdfViewCtrlConfig(pdfviewctrlconfig)
-                .ShowOpenFileOption(true)
-                .ShowOpenUrlOption(true)
-            .Build();
-
-            Button button = FindViewById<Button>(Resource.Id.loadDocumentButton);
-            button.Click += delegate
+            // setup listeners
+           
+            var firstThumbnailSlider = FindViewById<NativeThumbnailSlider>(Resource.Id.thumbnailSliderFirst);
+            firstThumbnailSlider.MenuItemClicked += (sender, e) =>
             {
-                //pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, Resource.Raw.test);
+                if (e.MenuItemPosition == NativeThumbnailSlider.PositionLeft)
+                {
+                    // The left button was clicked.
+                    thumbDiag.Show(this.SupportFragmentManager, "thumbnails_dialog");
 
-                var fileLink = Android.Net.Uri.Parse("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf");
-                pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, fileLink, config);
+                }
+                else
+                {
+                    // The right button was clicked.
+                }
             };
+
+            thumbDiag.ThumbnailsViewDialogDismiss += (sender, e) =>
+            {
+                firstThumbnailSlider.SetProgress(mPdfViewCtrl.CurrentPage);
+            };
+
+
+            // setup search
+
+            var searchToolbar = FindViewById<pdftron.PDF.Controls.SearchToolbar>(Resource.Id.searchText1);
+            var searchOverlay = FindViewById<pdftron.PDF.Controls.FindTextOverlay>(Resource.Id.find_text_view);
+            searchOverlay.SetPdfViewCtrl(mPdfViewCtrl);
+
+            searchToolbar.ExitSearch += (sender, e) =>
+            {
+                searchToolbar.Visibility = ViewStates.Gone;
+                searchOverlay.Visibility = ViewStates.Gone;
+                searchOverlay.ExitSearchMode();
+            };
+            searchToolbar.ClearSearchQuery += (sender, e) =>
+            {
+                searchOverlay?.CancelFindText();
+            };
+            searchToolbar.SearchQuerySubmit += (sender, e) =>
+            {
+                searchOverlay?.QueryTextSubmit(e.Query);
+            };
+            searchToolbar.SearchQueryChange += (sender, e) =>
+            {
+                searchOverlay?.SetSearchQuery(e.Query);
+            };
+            searchToolbar.SearchOptionsItemSelected += (sender, e) =>
+            {
+                int id = e.Item.ItemId;
+                if (id == Resource.Id.action_match_case)
+                {
+                    bool isChecked = e.Item.IsChecked;
+                    searchOverlay?.SetSearchMatchCase(!isChecked);
+                    searchOverlay?.ResetFullTextResults();
+                    e.Item.SetChecked(!isChecked);
+                }
+                else if (id == Resource.Id.action_whole_word)
+                {
+                    bool isChecked = e.Item.IsChecked;
+                    searchOverlay?.SetSearchWholeWord(!isChecked);
+                    searchOverlay?.ResetFullTextResults();
+                    e.Item.SetChecked(!isChecked);
+                }
+            };
+
+            searchToolbar.Visibility = ViewStates.Visible;
+            searchOverlay.Visibility = ViewStates.Visible;
         }
 
         public override void OnBackPressed()
@@ -111,6 +162,26 @@ namespace SanityCheck2
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.menu_main, menu);
+            Button button = FindViewById<Button>(Resource.Id.loadDocumentButton);
+            button.Click += delegate
+            {
+                // setup for documentviewer activity, integrates pdfviewctrl configurations
+                var pdfviewctrlconfig = PDFViewCtrlConfig.GetDefaultConfig(this)
+                    .SetUrlExtraction(true);
+
+                var config = new pdftron.PDF.Config.ViewerConfig.Builder()
+                .OpenUrlCachePath(this.CacheDir.AbsolutePath)
+                    .PdfViewCtrlConfig(pdfviewctrlconfig)
+                    .ShowOpenFileOption(true)
+                    .ShowOpenUrlOption(true)
+                .Build();
+
+                //pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, Resource.Raw.test);
+
+                var fileLink = Android.Net.Uri.Parse("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf");
+                pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, fileLink, config);
+            };
+
             return true;
         }
 
@@ -177,6 +248,8 @@ namespace SanityCheck2
             base.OnPause();
             mPdfViewCtrl?.Pause();
         }
+
+       
     }
 }
 
