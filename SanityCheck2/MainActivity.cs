@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Android;
 using Android.App;
@@ -10,9 +11,11 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using Java.IO;
 using pdftron.PDF;
 using pdftron.PDF.Config;
 using pdftron.PDF.Controls;
+using pdftron.PDF.Dialog;
 using pdftron.PDF.Tools;
 using pdftron.PDF.Tools.Utils;
 
@@ -22,6 +25,7 @@ namespace SanityCheck2
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         protected PDFViewCtrl mPdfViewCtrl;
+        protected ToolManager mToolManager;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -63,40 +67,57 @@ namespace SanityCheck2
             var httpRequestOptions = new PDFViewCtrl.HTTPRequestOptions();
             httpRequestOptions.RestrictDownloadUsage(true);
 
-            var mToolManager = pdftron.PDF.Config.ToolManagerBuilder.From()
+            mToolManager = pdftron.PDF.Config.ToolManagerBuilder.From()
                 .SetEditInk(true)
                 .SetOpenToolbar(true)
                 .SetCopyAnnot(true)
                 .Build(this, mPdfViewCtrl);
-                var nukeTool = new NuclearTool(mPdfViewCtrl);
-            ((Tool)nukeTool).ForceSameNextToolMode = true;
 
-            mToolManager.Tool = nukeTool;
+            // ---------------- SETUP THUMBNAIL SLIDER CONTAINER ------------------ //
 
             var thumbDiag = ThumbnailsViewFragment.NewInstance();
             thumbDiag.SetPdfViewCtrl(mPdfViewCtrl);
 
+            // ---------------- SETUP BOOKMARKS AND TABLE OF CONTENTS CONTAINER ------------------ //
+
+            List<DialogFragmentTab> tabs = new List<DialogFragmentTab>();
+
+            // add all tabs
+            var annotationsTab = new DialogFragmentTab(
+    Java.Lang.Class.FromType(typeof(AnnotationDialogFragment)), BookmarksTabLayout.TagTabAnnotation, null, "Annotations", "Bookmarks Dialog", null);
+            var outlineDialog = new DialogFragmentTab(
+                Java.Lang.Class.FromType(typeof(OutlineDialogFragment)), BookmarksTabLayout.TagTabOutline, null, "Outline", "Bookmarks Dialog", null);
+            var userBookmarksDialog = new DialogFragmentTab(
+                Java.Lang.Class.FromType(typeof(UserBookmarkDialogFragment)), BookmarksTabLayout.TagTabBookmark, null, "User Bookmarks", "Bookmarks Dialog", null);
+            tabs.Add(annotationsTab);
+            tabs.Add(userBookmarksDialog);
+            tabs.Add(outlineDialog);
+
+            var bookmarksList = BookmarksDialogFragment.NewInstance();
+            bookmarksList.SetPdfViewCtrl(mPdfViewCtrl);
+            bookmarksList.SetDialogFragmentTabs(tabs);
+            bookmarksList.SetStyle((int)DialogFragmentStyle.NoTitle, Resource.Style.AppTheme);
+
             PDFDoc document = mPdfViewCtrl.GetDoc();
-            Page firstpage = document.GetPage(1);
+            //Page firstpage = document.GetPage(1);
 
-            mPdfViewCtrl.OpenUrlAsync("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf", this.CacheDir.AbsolutePath, null, httpRequestOptions);
+            mPdfViewCtrl.OpenUrlAsync("https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo-annotated.pdf", this.CacheDir.AbsolutePath, null, httpRequestOptions);
 
 
-
-            // setup listeners
+            // ------------------------ setup listeners --------------------------- //
            
+            // Thumbnail slider
             var firstThumbnailSlider = FindViewById<NativeThumbnailSlider>(Resource.Id.thumbnailSliderFirst);
             firstThumbnailSlider.MenuItemClicked += (sender, e) =>
             {
                 if (e.MenuItemPosition == NativeThumbnailSlider.PositionLeft)
                 {
-                    // The left button was clicked.
                     thumbDiag.Show(this.SupportFragmentManager, "thumbnails_dialog");
 
                 }
                 else
                 {
-                    // The right button was clicked.
+                    bookmarksList.Show(this.SupportFragmentManager, "bookmarks_dialog");
                 }
             };
 
@@ -105,6 +126,26 @@ namespace SanityCheck2
                 firstThumbnailSlider.SetProgress(mPdfViewCtrl.CurrentPage);
             };
 
+            // listeners for bookmarks dialog tabs
+
+            bookmarksList.AnnotationClicked += (sender, e) =>
+            {
+                bookmarksList.Dismiss();
+            };
+            bookmarksList.ExportAnnotations += (sender, e) =>
+            {
+                // handle export annotations here
+                bookmarksList.Dismiss();
+            };
+            bookmarksList.OutlineClicked += (sender, e) =>
+            {
+                bookmarksList.Dismiss();
+            };
+            bookmarksList.UserBookmarkClick += (sender, e) =>
+            {
+                mPdfViewCtrl.SetCurrentPage(e.PageNum);
+                bookmarksList.Dismiss();
+            };
 
             // setup search
 
@@ -202,7 +243,12 @@ namespace SanityCheck2
                 return true;
             }else if(id == Resource.Id.stampButton)
             {
-                return true;;
+                File nukeImage = Utils.CopyResourceToLocal(mPdfViewCtrl.Context, Resource.Raw.nuclear_hazard, "nuclear_hazard", ".png");
+                var nukeTool = new NuclearTool(mPdfViewCtrl, nukeImage);
+
+                mToolManager.Tool = nukeTool;
+
+                return true;
             }
 
             return base.OnOptionsItemSelected(item);
@@ -258,10 +304,24 @@ namespace SanityCheck2
         protected override void OnPause()
         {
             base.OnPause();
-            mPdfViewCtrl?.Pause();
+            mPdfViewCtrl.Pause();
         }
 
-       
+        protected override void OnResume()
+        {
+            base.OnResume();
+            mPdfViewCtrl.Resume();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            var mPdfDoc = mPdfViewCtrl.GetDoc();
+            mPdfDoc.Close();
+            mPdfViewCtrl.Destroy();
+        }
+
+
     }
 }
 
