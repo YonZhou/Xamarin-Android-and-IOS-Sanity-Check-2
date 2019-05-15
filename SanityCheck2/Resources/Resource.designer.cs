@@ -5909,9 +5909,6 @@ namespace SanityCheck2
 			// aapt resource value: 0x7f0b0387
 			public const int action_search_web = 2131428231;
 			
-			// aapt resource value: 0x7f0b038c
-			public const int action_settings = 2131428236;
-			
 			// aapt resource value: 0x7f0b0030
 			public const int action_share = 2131427376;
 			
@@ -8026,6 +8023,9 @@ namespace SanityCheck2
 			
 			// aapt resource value: 0x7f0b00b7
 			public const int src_over = 2131427511;
+			
+			// aapt resource value: 0x7f0b038c
+			public const int stampButton = 2131428236;
 			
 			// aapt resource value: 0x7f0b0262
 			public const int stamp_color_recycler = 2131427938;

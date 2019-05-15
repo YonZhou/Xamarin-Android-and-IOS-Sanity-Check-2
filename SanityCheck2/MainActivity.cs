@@ -68,9 +68,16 @@ namespace SanityCheck2
                 .SetOpenToolbar(true)
                 .SetCopyAnnot(true)
                 .Build(this, mPdfViewCtrl);
+                var nukeTool = new NuclearTool(mPdfViewCtrl);
+            ((Tool)nukeTool).ForceSameNextToolMode = true;
+
+            mToolManager.Tool = nukeTool;
 
             var thumbDiag = ThumbnailsViewFragment.NewInstance();
             thumbDiag.SetPdfViewCtrl(mPdfViewCtrl);
+
+            PDFDoc document = mPdfViewCtrl.GetDoc();
+            Page firstpage = document.GetPage(1);
 
             mPdfViewCtrl.OpenUrlAsync("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf", this.CacheDir.AbsolutePath, null, httpRequestOptions);
 
@@ -142,8 +149,6 @@ namespace SanityCheck2
                 }
             };
 
-            searchToolbar.Visibility = ViewStates.Visible;
-            searchOverlay.Visibility = ViewStates.Visible;
         }
 
         public override void OnBackPressed()
@@ -188,9 +193,16 @@ namespace SanityCheck2
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             int id = item.ItemId;
-            if (id == Resource.Id.action_settings)
+            if (id == Resource.Id.action_search)
             {
+                var searchToolbar = FindViewById<pdftron.PDF.Controls.SearchToolbar>(Resource.Id.searchText1);
+                var searchOverlay = FindViewById<pdftron.PDF.Controls.FindTextOverlay>(Resource.Id.find_text_view);
+                searchToolbar.Visibility = ViewStates.Visible;
+                searchOverlay.Visibility = ViewStates.Visible;
                 return true;
+            }else if(id == Resource.Id.stampButton)
+            {
+                return true;;
             }
 
             return base.OnOptionsItemSelected(item);
