@@ -65,7 +65,7 @@ namespace SanityCheck2
             mPdfViewCtrl = FindViewById<PDFViewCtrl>(Resource.Id.pdfviewctrlfirst);
             AppUtils.SetupPDFViewCtrl(mPdfViewCtrl);
             var httpRequestOptions = new PDFViewCtrl.HTTPRequestOptions();
-            httpRequestOptions.RestrictDownloadUsage(true);
+            httpRequestOptions.RestrictDownloadUsage(false);
 
             mToolManager = pdftron.PDF.Config.ToolManagerBuilder.From()
                 .SetEditInk(true)
@@ -103,6 +103,8 @@ namespace SanityCheck2
 
             mPdfViewCtrl.OpenUrlAsync("https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo-annotated.pdf", this.CacheDir.AbsolutePath, null, httpRequestOptions);
 
+            // ------------------- SETUP COMPARE DOCUMENTS OPTION --------------------- //
+            // TODO
 
             // ------------------------ setup listeners --------------------------- //
            
@@ -224,7 +226,7 @@ namespace SanityCheck2
 
                 //pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, Resource.Raw.test);
 
-                var fileLink = Android.Net.Uri.Parse("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf");
+                var fileLink = Android.Net.Uri.Parse("https://ia800304.us.archive.org/19/items/nasa_techdoc_19880069935/19880069935.pdf");
                 pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, fileLink, config);
             };
 
@@ -318,6 +320,7 @@ namespace SanityCheck2
             base.OnDestroy();
             var mPdfDoc = mPdfViewCtrl.GetDoc();
             mPdfDoc.Close();
+            // bug here
             mPdfViewCtrl.Destroy();
         }
 
