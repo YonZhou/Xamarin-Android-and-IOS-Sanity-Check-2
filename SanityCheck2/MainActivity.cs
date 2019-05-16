@@ -102,8 +102,36 @@ namespace SanityCheck2
             //Page firstpage = document.GetPage(1);
 
             String URLtoLoad = this.Intent.GetStringExtra("DOCUMENT_TO_LOAD");
+            bool isDOCX = this.Intent.GetBooleanExtra("ISDOCX", false);
 
-            mPdfViewCtrl.OpenUrlAsync(URLtoLoad, this.CacheDir.AbsolutePath, null, httpRequestOptions);
+            if (isDOCX)
+            {
+                System.Diagnostics.Debug.WriteLine("detected docx");
+
+                Android.Net.Uri docxURI = Android.Net.Uri.Parse(URLtoLoad);
+                System.Diagnostics.Debug.WriteLine(docxURI.ToString());
+                var documentConversion = mPdfViewCtrl.OpenNonPDFUri(docxURI, null);
+
+                mPdfViewCtrl.UniversalDocumentConversion += (sender, e) =>
+                {
+                    if (e.State == PDFViewCtrl.ConversionState.Progress)
+                    {
+                        System.Diagnostics.Debug.WriteLine("in progress");
+                    }
+                    else if (e.State == PDFViewCtrl.ConversionState.Finished)
+                    {
+                        System.Diagnostics.Debug.WriteLine("success");
+                        PDFDoc converted = documentConversion.GetDoc();
+                        mPdfViewCtrl.SetDoc(converted);
+                    }
+                    else if (e.State == PDFViewCtrl.ConversionState.Failed)
+                    {
+                        System.Diagnostics.Debug.WriteLine("failed");
+                    }
+                };
+            }
+            else
+                mPdfViewCtrl.OpenUrlAsync(URLtoLoad, this.CacheDir.AbsolutePath, null, httpRequestOptions);
 
             // ------------------- SETUP COMPARE DOCUMENTS OPTION --------------------- //
             // TODO

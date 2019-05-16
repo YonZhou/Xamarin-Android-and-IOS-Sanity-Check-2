@@ -17,33 +17,33 @@ namespace SanityCheck2
     [Activity(Label = "Activity1", MainLauncher = true)]
     public class FileBrowserActivity : ListActivity
     {
-
-
         List<String> items;
+        JavaList<ServerFile> files;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            // get file names from server
-            HttpClient client = new HttpClient();
-            var uri = new Uri("http://10.0.3.2:8080/getFiles");
+            var FileAdapter = new FileBrowserAdapter(this, GetFiles());
+            this.ListAdapter = FileAdapter;
 
-            var response = client.GetAsync(uri).Result;
-            var responsecontent = response.Content;
-            string responseString = responsecontent.ReadAsStringAsync().Result;
-            System.Diagnostics.Debug.WriteLine("reached response " + responseString);
-            items = JsonConvert.DeserializeObject<List<String>>(responseString);
+            //ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.filebrowser_list_item, items);
 
-            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.filebrowser_list_item, items);
-
-            ListView.TextFilterEnabled = true;
+            //ListView.TextFilterEnabled = true;
 
             ListView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
             {
-                System.Diagnostics.Debug.WriteLine(((TextView)args.View).Text);
+                String filename = files[args.Position].Name;
+
+                System.Diagnostics.Debug.WriteLine(filename);
                 Intent intent = new Intent(this, typeof(MainActivity));
-                intent.PutExtra("DOCUMENT_TO_LOAD", "http://10.0.3.2:8080/" + ((TextView)args.View).Text);
+                intent.PutExtra("DOCUMENT_TO_LOAD", "http://10.0.3.2:8080/" + filename);
+                var extension = System.IO.Path.GetExtension(filename);
+                extension = extension.TrimStart('.');
+                if (extension == "pdf")
+                    intent.PutExtra("ISDOCX", false);
+                else if (extension == "docx")
+                    intent.PutExtra("ISDOCX", true);
                 StartActivity(intent);
             };
 
@@ -55,15 +55,29 @@ namespace SanityCheck2
             System.Diagnostics.Debug.WriteLine("Some text");
         }
 
-        public async void MakeRequestGetLists()
+        private JavaList<ServerFile> GetFiles()
         {
+
+            files = new JavaList<ServerFile>();
+
+
+            // get file names from server
             HttpClient client = new HttpClient();
             var uri = new Uri("http://10.0.3.2:8080/getFiles");
 
-            var response = await client.GetAsync(uri);
+            var response = client.GetAsync(uri).Result;
+            var responsecontent = response.Content;
+            string responseString = responsecontent.ReadAsStringAsync().Result;
+            System.Diagnostics.Debug.WriteLine("reached response " + responseString);
+            items = JsonConvert.DeserializeObject<List<String>>(responseString);
 
-            var content = response.Content.ReadAsStringAsync();
-            System.Diagnostics.Debug.WriteLine(content);
+            foreach(String s in items)
+            {
+                ServerFile nextFile = new ServerFile(s, Resource.Drawable.test);
+                files.Add(nextFile);
+            }
+
+            return files;
         }
 
     }
