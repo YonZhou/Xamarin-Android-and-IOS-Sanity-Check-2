@@ -101,7 +101,9 @@ namespace SanityCheck2
             PDFDoc document = mPdfViewCtrl.GetDoc();
             //Page firstpage = document.GetPage(1);
 
-            mPdfViewCtrl.OpenUrlAsync("https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo-annotated.pdf", this.CacheDir.AbsolutePath, null, httpRequestOptions);
+            String URLtoLoad = this.Intent.GetStringExtra("DOCUMENT_TO_LOAD");
+
+            mPdfViewCtrl.OpenUrlAsync(URLtoLoad, this.CacheDir.AbsolutePath, null, httpRequestOptions);
 
             // ------------------- SETUP COMPARE DOCUMENTS OPTION --------------------- //
             // TODO
@@ -148,6 +150,13 @@ namespace SanityCheck2
                 mPdfViewCtrl.SetCurrentPage(e.PageNum);
                 bookmarksList.Dismiss();
             };
+
+            // listener for page changed
+            mPdfViewCtrl.PageNumberChanged += (sender, e) =>
+            {
+                firstThumbnailSlider.SetProgress(mPdfViewCtrl.CurrentPage);
+            };
+
 
             // setup search
 
@@ -233,6 +242,7 @@ namespace SanityCheck2
             return true;
         }
 
+        // Function which handles menu options on right of header toolbar
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             int id = item.ItemId;
@@ -318,10 +328,10 @@ namespace SanityCheck2
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            var mPdfDoc = mPdfViewCtrl.GetDoc();
-            mPdfDoc.Close();
+            //var mPdfDoc = mPdfViewCtrl.GetDoc();
+            //mPdfDoc.Close();
             // bug here
-            mPdfViewCtrl.Destroy();
+            //mPdfViewCtrl?.Destroy();
         }
 
 

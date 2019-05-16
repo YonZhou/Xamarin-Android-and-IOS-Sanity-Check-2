@@ -6,11 +6,11 @@
     <item name="android:statusBarColor">@android:color/transparent</item>
   </style>
 
-  <!--<style name="CustomAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+  <style name="CustomAppTheme" parent="Theme.AppCompat.DayNight">
     <item name="colorPrimaryDark">@color/colorHotPink</item>
     <item name="colorAccent">@color/app_color_accent</item>
     <item name="actionModeBackground">@color/app_color_accent</item>
     <item name="windowActionModeOverlay">true</item>
 
-  </style>-->
+  </style>
 </resources>
