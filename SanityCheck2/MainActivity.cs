@@ -106,29 +106,7 @@ namespace SanityCheck2
 
             if (isDOCX)
             {
-                System.Diagnostics.Debug.WriteLine("detected docx");
-
-                Android.Net.Uri docxURI = Android.Net.Uri.Parse(URLtoLoad);
-                System.Diagnostics.Debug.WriteLine(docxURI.ToString());
-                var documentConversion = mPdfViewCtrl.OpenNonPDFUri(docxURI, null);
-
-                mPdfViewCtrl.UniversalDocumentConversion += (sender, e) =>
-                {
-                    if (e.State == PDFViewCtrl.ConversionState.Progress)
-                    {
-                        System.Diagnostics.Debug.WriteLine("in progress");
-                    }
-                    else if (e.State == PDFViewCtrl.ConversionState.Finished)
-                    {
-                        System.Diagnostics.Debug.WriteLine("success");
-                        PDFDoc converted = documentConversion.GetDoc();
-                        mPdfViewCtrl.SetDoc(converted);
-                    }
-                    else if (e.State == PDFViewCtrl.ConversionState.Failed)
-                    {
-                        System.Diagnostics.Debug.WriteLine("failed");
-                    }
-                };
+                loadNonPDF(URLtoLoad);
             }
             else
                 mPdfViewCtrl.OpenUrlAsync(URLtoLoad, this.CacheDir.AbsolutePath, null, httpRequestOptions);
@@ -360,6 +338,42 @@ namespace SanityCheck2
             //mPdfDoc.Close();
             // bug here
             //mPdfViewCtrl?.Destroy();
+        }
+
+        private void loadNonPDF(String URLtoLoad)
+        {
+            System.Diagnostics.Debug.WriteLine("detected docx");
+
+            Android.Net.Uri docxURI = Android.Net.Uri.Parse(URLtoLoad);
+            System.Diagnostics.Debug.WriteLine("docx uri " + docxURI.ToString());
+            DocumentConversion documentConversion = null;
+
+            try
+            {
+                documentConversion = mPdfViewCtrl.OpenNonPDFUri(docxURI, null);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+
+            mPdfViewCtrl.UniversalDocumentConversion += (sender, e) =>
+            {
+                if (e.State == PDFViewCtrl.ConversionState.Progress)
+                {
+                    System.Diagnostics.Debug.WriteLine("in progress");
+                }
+                else if (e.State == PDFViewCtrl.ConversionState.Finished)
+                {
+                    System.Diagnostics.Debug.WriteLine("success");
+                    PDFDoc converted = documentConversion.GetDoc();
+                    mPdfViewCtrl.SetDoc(converted);
+                }
+                else if (e.State == PDFViewCtrl.ConversionState.Failed)
+                {
+                    System.Diagnostics.Debug.WriteLine("failed");
+                }
+            };
         }
 
 
