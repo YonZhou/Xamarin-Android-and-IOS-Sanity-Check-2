@@ -5912,8 +5912,8 @@ namespace SanityCheck2
 			// aapt resource value: 0x7f0b002e
 			public const int action_rotatepage = 2131427374;
 			
-			// aapt resource value: 0x7f0b038e
-			public const int action_save = 2131428238;
+			// aapt resource value: 0x7f0b038f
+			public const int action_save = 2131428239;
 			
 			// aapt resource value: 0x7f0b002f
 			public const int action_search = 2131427375;
@@ -7864,6 +7864,9 @@ namespace SanityCheck2
 			
 			// aapt resource value: 0x7f0b0188
 			public const int ruler_unit_textivew = 2131427720;
+			
+			// aapt resource value: 0x7f0b038e
+			public const int saveAnnotationsButton = 2131428238;
 			
 			// aapt resource value: 0x7f0b000c
 			public const int save_image_matrix = 2131427340;

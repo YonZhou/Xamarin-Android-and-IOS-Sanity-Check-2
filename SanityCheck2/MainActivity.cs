@@ -13,6 +13,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Java.IO;
+using pdftron.FDF;
 using pdftron.PDF;
 using pdftron.PDF.Config;
 using pdftron.PDF.Controls;
@@ -29,6 +30,9 @@ namespace SanityCheck2
     {
         protected PDFViewCtrl mPdfViewCtrl;
         protected ToolManager mToolManager;
+        protected PDFDoc currentPDFDoc;
+        public static String debugXML;
+        public static bool isDebug = false;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -148,7 +152,7 @@ namespace SanityCheck2
             };
             bookmarksList.ExportAnnotations += (sender, e) =>
             {
-                // handle export annotations here
+                var doc = e.OutputDoc;
                 bookmarksList.Dismiss();
             };
             bookmarksList.OutlineClicked += (sender, e) =>
@@ -269,8 +273,31 @@ namespace SanityCheck2
                 var nukeTool = new NuclearTool(mPdfViewCtrl, nukeImage);
 
                 mToolManager.Tool = nukeTool;
+                //mToolManager.EnableAnnotManager();
 
                 return true;
+            } else if(id == Resource.Id.saveAnnotationsButton)
+            {
+                WebClient client = new WebClient();
+                currentPDFDoc = mPdfViewCtrl.GetDoc();
+
+                if (!isDebug)
+                {
+                    FDFDoc annotationsDoc = currentPDFDoc.FDFExtract(PDFDoc.ExtractFlag.e_annots_only);
+                    debugXML = annotationsDoc.SaveAsXFDF();
+                    System.Diagnostics.Debug.WriteLine("annotations " + annotationsDoc.SaveAsXFDF());
+                    // save XFDF file to server
+                    byte[] outputXFDF = annotationsDoc.Save();
+                    isDebug = true;
+                }
+                // below only for debugging purposes
+                //String testXML = File.readalltext();
+                //String testXML = "";
+                //System.Diagnostics.Debug.WriteLine(testXML);
+
+                FDFDoc newAnnotationsLoaded = FDFDoc.CreateFromXFDF(debugXML);
+                currentPDFDoc.FDFUpdate(newAnnotationsLoaded);
+                mPdfViewCtrl.SetDoc(currentPDFDoc);
             }
 
             return base.OnOptionsItemSelected(item);

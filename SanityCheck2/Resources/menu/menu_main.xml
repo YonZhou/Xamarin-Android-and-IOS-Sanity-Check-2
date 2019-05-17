@@ -11,6 +11,12 @@
         android:orderInCategory="200"
         android:title="Stamp Nuclear"
         app:showAsAction="never"/>
+
+  <item
+        android:id="@+id/saveAnnotationsButton"
+        android:orderInCategory="300"
+        android:title="Save Annotations"
+        app:showAsAction="never"/>
   
 
 </menu>
