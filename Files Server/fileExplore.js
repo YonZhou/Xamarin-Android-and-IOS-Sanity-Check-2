@@ -16,6 +16,7 @@ var port = 8080
 var count = 0;
 
 var upload = multer({ dest: directoryPath });
+fs.writeFileSync('nuclearLog.txt', " ");
 
 app.use(cors());
 // app.use(basicAuth({

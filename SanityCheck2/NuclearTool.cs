@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using Java.IO;
 using pdftron.PDF;
 using pdftron.PDF.Tools;
@@ -30,6 +31,9 @@ namespace SanityCheck2
 
         {
             // TODO: send log to server
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("http://10.0.3.2:8080");
+            client.PostAsync("/logNuclear", null);
             bool created = CreateImageStamp(Android.Net.Uri.Parse(nukeImage.ToURI().ToString()), 0, null);
             // parsed URI becomes file:/data/user/0/com.companyname.SanityCheck2/files/nuclear_hazard.png
             System.Diagnostics.Debug.WriteLine("flag1 " + Android.Net.Uri.Parse(nukeImage.ToURI().ToString()));
