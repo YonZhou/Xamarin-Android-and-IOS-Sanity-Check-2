@@ -20,6 +20,7 @@ using pdftron.PDF.Dialog;
 using pdftron.PDF.Tools;
 using pdftron.PDF.Tools.Utils;
 using static Android.Manifest;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace SanityCheck2
 {
@@ -105,6 +106,7 @@ namespace SanityCheck2
 
             String URLtoLoad = this.Intent.GetStringExtra("DOCUMENT_TO_LOAD");
             bool isDOCX = this.Intent.GetBooleanExtra("ISDOCX", false);
+
 
             if (isDOCX)
             {
@@ -317,9 +319,8 @@ namespace SanityCheck2
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
+            //PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            RequestPermissions(new string[] { Permission.WriteExternalStorage, Permission.ReadExternalStorage }, requestCode);
 
         }
 
@@ -351,14 +352,14 @@ namespace SanityCheck2
             Android.Net.Uri docxURI = Android.Net.Uri.Parse(URLtoLoad);
 
             WebClient client = new WebClient();
-            //try
-            //{
-            //    client.DownloadFile(URLtoLoad, Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/downloadedDoc.docx");
-            //}
-            //catch (Exception e)
-            //{
-            //    System.Diagnostics.Debug.WriteLine("docdownload " + e);
-            //}
+            try
+            {
+                client.DownloadFile(URLtoLoad, Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/downloadedDoc.docx");
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("docdownload " + e);
+            }
             System.Diagnostics.Debug.WriteLine("docx uri " + docxURI.ToString());
             DocumentConversion documentConversion = null;
 

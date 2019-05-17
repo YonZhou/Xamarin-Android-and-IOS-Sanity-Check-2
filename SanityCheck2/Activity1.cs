@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-
+using Android;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
+using static Android.Manifest;
 
 namespace SanityCheck2
 {
@@ -30,11 +32,27 @@ namespace SanityCheck2
             //ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.filebrowser_list_item, items);
 
             //ListView.TextFilterEnabled = true;
+            string[] permissions = { Manifest.Permission.ReadExternalStorage };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.SetTitle("Asking for storage permissions");
+            builder.SetMessage("This app needs external storage permission to continue");
+            builder.SetPositiveButton("Request Permissions", (senderAlert, args) =>
+            {
+                RequestPermissions(permissions, 0);
+            });
+
+            builder.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
+                Toast.MakeText(this, "Canceled", ToastLength.Short).Show();
+            });
+
+            Dialog dialog = builder.Create();
+            dialog.Show();
 
             ListView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
             {
                 String filename = files[args.Position].Name;
-
                 System.Diagnostics.Debug.WriteLine(filename);
                 Intent intent = new Intent(this, typeof(MainActivity));
                 intent.PutExtra("DOCUMENT_TO_LOAD", "http://10.0.3.2:8080/" + filename);
@@ -49,11 +67,6 @@ namespace SanityCheck2
 
         }
 
-        protected override void OnListItemClick(ListView l, View v, int position, long id)
-        {
-            var item = items[position];
-            System.Diagnostics.Debug.WriteLine("Some text");
-        }
 
         private JavaList<ServerFile> GetFiles()
         {
