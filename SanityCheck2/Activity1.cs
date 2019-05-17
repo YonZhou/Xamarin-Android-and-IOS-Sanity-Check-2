@@ -64,7 +64,7 @@ namespace SanityCheck2
             // get file names from server
             HttpClient client = new HttpClient();
             var uri = new Uri("http://10.0.3.2:8080/getFiles");
-
+            client.Timeout = TimeSpan.FromSeconds(60);
             var response = client.GetAsync(uri).Result;
             var responsecontent = response.Content;
             string responseString = responsecontent.ReadAsStringAsync().Result;

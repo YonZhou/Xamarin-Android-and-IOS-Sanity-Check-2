@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Android;
 using Android.App;
 using Android.OS;
@@ -18,6 +19,7 @@ using pdftron.PDF.Controls;
 using pdftron.PDF.Dialog;
 using pdftron.PDF.Tools;
 using pdftron.PDF.Tools.Utils;
+using static Android.Manifest;
 
 namespace SanityCheck2
 {
@@ -317,6 +319,8 @@ namespace SanityCheck2
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            RequestPermissions(new string[] { Permission.WriteExternalStorage, Permission.ReadExternalStorage }, requestCode);
+
         }
 
         protected override void OnPause()
@@ -345,16 +349,27 @@ namespace SanityCheck2
             System.Diagnostics.Debug.WriteLine("detected docx");
 
             Android.Net.Uri docxURI = Android.Net.Uri.Parse(URLtoLoad);
+
+            WebClient client = new WebClient();
+            //try
+            //{
+            //    client.DownloadFile(URLtoLoad, Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/downloadedDoc.docx");
+            //}
+            //catch (Exception e)
+            //{
+            //    System.Diagnostics.Debug.WriteLine("docdownload " + e);
+            //}
             System.Diagnostics.Debug.WriteLine("docx uri " + docxURI.ToString());
             DocumentConversion documentConversion = null;
 
             try
             {
-                documentConversion = mPdfViewCtrl.OpenNonPDFUri(docxURI, null);
+                //documentConversion = mPdfViewCtrl.OpenNonPDFUri(Android.Net.Uri.Parse(URLtoLoad), null);
+                documentConversion = mPdfViewCtrl.OpenNonPDFUri(Android.Net.Uri.Parse(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/downloadedDoc.docx"), null);
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e);
+                System.Diagnostics.Debug.WriteLine("opennonpdfuri exception " + e);
             }
 
             mPdfViewCtrl.UniversalDocumentConversion += (sender, e) =>

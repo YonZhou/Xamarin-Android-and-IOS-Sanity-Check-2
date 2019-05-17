@@ -31,7 +31,8 @@ namespace SanityCheck2
         {
             // TODO: send log to server
             bool created = CreateImageStamp(Android.Net.Uri.Parse(nukeImage.ToURI().ToString()), 0, null);
-
+            // parsed URI becomes file:/data/user/0/com.companyname.SanityCheck2/files/nuclear_hazard.png
+            System.Diagnostics.Debug.WriteLine("flag1 " + Android.Net.Uri.Parse(nukeImage.ToURI().ToString()));
         }
 
 
