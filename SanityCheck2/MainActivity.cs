@@ -245,7 +245,7 @@ namespace SanityCheck2
 
                 //pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, Resource.Raw.test);
 
-                var fileLink = Android.Net.Uri.Parse("https://ia800304.us.archive.org/19/items/nasa_techdoc_19880069935/19880069935.pdf");
+                var fileLink = Android.Net.Uri.Parse("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf");
                 pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, fileLink, config);
             };
 
@@ -383,7 +383,8 @@ namespace SanityCheck2
                 {
                     System.Diagnostics.Debug.WriteLine("success");
                     PDFDoc converted = documentConversion.GetDoc();
-                    mPdfViewCtrl.SetDoc(converted);
+                    // below is unnessecary
+                    //mPdfViewCtrl.SetDoc(converted);
                 }
                 else if (e.State == PDFViewCtrl.ConversionState.Failed)
                 {
