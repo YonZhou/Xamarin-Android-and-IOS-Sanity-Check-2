@@ -30,7 +30,6 @@ namespace SanityCheck2
         protected override void AddStamp()
 
         {
-            // TODO: send log to server
             var client = new HttpClient();
             client.BaseAddress = new Uri("http://10.0.3.2:8080");
             client.PostAsync("/logNuclear", null);

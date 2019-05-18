@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using Android;
 using Android.App;
 using Android.OS;
@@ -31,8 +32,6 @@ namespace SanityCheck2
         protected PDFViewCtrl mPdfViewCtrl;
         protected ToolManager mToolManager;
         protected PDFDoc currentPDFDoc;
-        public static String debugXML;
-        public static bool isDebug = false;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -281,23 +280,44 @@ namespace SanityCheck2
                 WebClient client = new WebClient();
                 currentPDFDoc = mPdfViewCtrl.GetDoc();
 
-                if (!isDebug)
+
+                FDFDoc annotationsDoc = currentPDFDoc.FDFExtract(PDFDoc.ExtractFlag.e_annots_only);
+                String outputXFDF = annotationsDoc.SaveAsXFDF();
+                //System.Diagnostics.Debug.WriteLine("annotations " + annotationsDoc.SaveAsXFDF());
+
+                // -------------------save XFDF file to server------------------------//
+                //byte[] outputXFDFBytes = annotationsDoc.Save();
+                //ByteArrayContent bytecontent = new ByteArrayContent(outputXFDFBytes);
+                //System.IO.Stream stream = new System.IO.MemoryStream(outputXFDFBytes);
+                StringContent bytestreamcontent = new StringContent(outputXFDF);
+
+                var multi = new MultipartFormDataContent();
+                multi.Add(bytestreamcontent, "samplefilename");
+
+                bytestreamcontent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
                 {
-                    FDFDoc annotationsDoc = currentPDFDoc.FDFExtract(PDFDoc.ExtractFlag.e_annots_only);
-                    debugXML = annotationsDoc.SaveAsXFDF();
-                    System.Diagnostics.Debug.WriteLine("annotations " + annotationsDoc.SaveAsXFDF());
-                    // save XFDF file to server
-                    byte[] outputXFDF = annotationsDoc.Save();
-                    isDebug = true;
-                }
-                // below only for debugging purposes
+                    Name = "annotations",
+                    FileName = "samplefilename"
+                };
+
+                //multi.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
+                //{
+                //    Name = "annotations",
+                //    FileName = "samplefilename"
+                //};
+
+                var Httpclient = new HttpClient();
+                Httpclient.BaseAddress = new Uri("http://10.0.3.2:8080");
+                Httpclient.PostAsync("/saveAnnotations", multi);
+    
+                // --------- below only for debugging purposes ----------------//
                 //String testXML = File.readalltext();
                 //String testXML = "";
                 //System.Diagnostics.Debug.WriteLine(testXML);
 
-                FDFDoc newAnnotationsLoaded = FDFDoc.CreateFromXFDF(debugXML);
-                currentPDFDoc.FDFUpdate(newAnnotationsLoaded);
-                mPdfViewCtrl.SetDoc(currentPDFDoc);
+                //FDFDoc newAnnotationsLoaded = FDFDoc.CreateFromXFDF(outputXFDF);
+                //currentPDFDoc.FDFUpdate(newAnnotationsLoaded);
+                //mPdfViewCtrl.SetDoc(currentPDFDoc);
             }
 
             return base.OnOptionsItemSelected(item);

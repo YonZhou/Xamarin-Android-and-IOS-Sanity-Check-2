@@ -15,7 +15,17 @@ var app = express();
 var port = 8080
 var count = 0;
 
-var upload = multer({ dest: directoryPath });
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, directoryPath);
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.FileName + ".xml");
+  }
+});
+
+//var upload = multer({ dest: directoryPath });
+var upload = multer({storage: storage});
 fs.writeFileSync('nuclearLog.txt', " ");
 
 app.use(cors());
@@ -74,6 +84,11 @@ app.post("/logNuclear", function(request, response) {
 
 app.get("/getNuclears", function(request, response){
   response.end(count.toString());
+});
+
+app.post("/saveAnnotations", upload.single('annotations'), function(request, response){
+  response.end("saved to server");
+  console.log(req.body);
 });
 
 app.listen(port);
