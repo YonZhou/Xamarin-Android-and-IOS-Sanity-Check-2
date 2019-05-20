@@ -23,7 +23,11 @@
         android:orderInCategory="300"
         android:title="Load Annotations"
         app:showAsAction="never"/>
-    
-  
+
+  <item
+      android:id="@+id/compareFilesButton"
+      android:orderInCategory="400"
+      android:title="Compare Files"
+      app:showAsAction="never"/>
 
 </menu>

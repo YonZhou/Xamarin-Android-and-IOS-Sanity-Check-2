@@ -67,7 +67,7 @@ namespace SanityCheck2
             {
                 NameTxt = { Text = files[position].Name }
             };
-            holder.Img.SetImageResource(files[position].Image);
+            holder.Img.SetImageBitmap(files[position].Image);
 
             //convertView.SetBackgroundColor(Color.LightBlue);
 

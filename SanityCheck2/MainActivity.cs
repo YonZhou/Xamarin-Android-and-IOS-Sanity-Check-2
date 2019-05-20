@@ -316,7 +316,7 @@ namespace SanityCheck2
                 //FDFDoc newAnnotationsLoaded = FDFDoc.CreateFromXFDF(outputXFDF);
                 //currentPDFDoc.FDFUpdate(new FDFDoc(outputXFDFBytes, outputXFDFBytes.Length));
                 //mPdfViewCtrl.SetDoc(currentPDFDoc);
-            } else
+            } else if (id == Resource.Id.loadAnnotationsButton)
             {
                 WebClient client = new WebClient();
                 string annotationsFile = Path.GetFileNameWithoutExtension(URLtoLoad) + "_annots.xml";
@@ -339,6 +339,9 @@ namespace SanityCheck2
                     mPdfViewCtrl.SetDoc(currentPDFDoc);
                 }
 
+            } else if(id == Resource.Id.compareFilesButton)
+            {
+                DiffActivity.Open(this);
             }
 
             return base.OnOptionsItemSelected(item);

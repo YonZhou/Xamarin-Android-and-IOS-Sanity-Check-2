@@ -5912,8 +5912,8 @@ namespace SanityCheck2
 			// aapt resource value: 0x7f0b002e
 			public const int action_rotatepage = 2131427374;
 			
-			// aapt resource value: 0x7f0b038f
-			public const int action_save = 2131428239;
+			// aapt resource value: 0x7f0b0390
+			public const int action_save = 2131428240;
 			
 			// aapt resource value: 0x7f0b002f
 			public const int action_search = 2131427375;
@@ -6265,6 +6265,9 @@ namespace SanityCheck2
 			
 			// aapt resource value: 0x7f0b026b
 			public const int colormode_viewpager = 2131427947;
+			
+			// aapt resource value: 0x7f0b038f
+			public const int compareFilesButton = 2131428239;
 			
 			// aapt resource value: 0x7f0b01bf
 			public const int compression_color_mode_spinner = 2131427775;

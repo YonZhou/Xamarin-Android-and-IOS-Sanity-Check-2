@@ -11,8 +11,7 @@ const basicAuth = require('express-basic-auth');
 
 var express = require('express');
 var multer = require('multer');
-
-
+var docxConverter = require('docx-pdf');
 var app = express();
 var port = 8080
 var count = 0;
@@ -77,6 +76,30 @@ app.get('/getFiles', function(request, response) {
                       }
                   }
               );
+        } else if(path.extname(file) == '.docx'){
+            docxConverter(directoryPath+"/"+file, directoryPath+"/"+path.basename(file, ".docx")+".pdf",
+                          function (error, stdout, stderr, command) {
+                            if(!error){
+                              gm(directoryPath +"/"+path.basename(file, ".docx") + ".pdf"+"[0]")
+                                  .thumb(
+                                      200, // Width
+                                      200, // Height
+                                      directoryPath + "/" + path.basename(path.basename(file, ".docx"), ".pdf") + '.png', // Output file name
+                                      80, // Quality from 0 to 100
+                                      function (error, stdout, stderr, command) {
+                                          if (!error) {
+                                              console.log(command);
+                                              fs.unlink(directoryPath +"/"+path.basename(file, ".docx") + ".pdf", function(error, stdout, stderr, command){});
+
+                                          } else {
+                                              console.log(error);
+                                          }
+                                      }
+                                  );
+                            } else {
+
+                            }
+                          });
         }
     });
     //response.writeHead(200,{"Content-Type" : "application/json"});
