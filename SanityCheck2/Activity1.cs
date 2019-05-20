@@ -86,8 +86,10 @@ namespace SanityCheck2
 
             foreach(String s in items)
             {
-                ServerFile nextFile = new ServerFile(s, Resource.Drawable.test);
-                files.Add(nextFile);
+                if (System.IO.Path.GetExtension(s) == ".pdf") {
+                    ServerFile nextFile = new ServerFile(s, Resource.Drawable.test);
+                    files.Add(nextFile);
+                }
             }
 
             return files;

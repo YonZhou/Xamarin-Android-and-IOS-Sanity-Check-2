@@ -93,7 +93,6 @@ namespace SanityCheck2
         {
             NameTxt = itemView.FindViewById<TextView>(Resource.Id.nameTxt);
             Img = itemView.FindViewById<ImageView>(Resource.Id.fileThumbnail);
-
         }
     }
 }

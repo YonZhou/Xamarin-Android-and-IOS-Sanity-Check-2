@@ -17,6 +17,13 @@
         android:orderInCategory="300"
         android:title="Save Annotations"
         app:showAsAction="never"/>
+
+  <item
+        android:id="@+id/loadAnnotationsButton"
+        android:orderInCategory="300"
+        android:title="Load Annotations"
+        app:showAsAction="never"/>
+    
   
 
 </menu>

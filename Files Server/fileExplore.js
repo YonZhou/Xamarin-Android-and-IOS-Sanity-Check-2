@@ -11,6 +11,8 @@ const basicAuth = require('express-basic-auth');
 
 var express = require('express');
 var multer = require('multer');
+
+
 var app = express();
 var port = 8080
 var count = 0;
@@ -20,13 +22,20 @@ var storage = multer.diskStorage({
     cb(null, directoryPath);
   },
   filename: function(req, file, cb) {
-    cb(null, file.FileName + ".xml");
+    cb(null, file.originalname + "_annots" + ".xml");
   }
 });
 
 //var upload = multer({ dest: directoryPath });
 var upload = multer({storage: storage});
 fs.writeFileSync('nuclearLog.txt', " ");
+
+const gm = require('gm').subClass({imageMagick: true});
+
+
+
+// Create JPG from page 0 of the PDF
+
 
 app.use(cors());
 // app.use(basicAuth({
@@ -53,6 +62,22 @@ app.get('/getFiles', function(request, response) {
         // Do whatever you want to do with the file
         console.log(file);
         retarr.push(file);
+        if(path.extname(file) == ".pdf"){
+          gm(directoryPath +"/"+file+"[0]")
+              .thumb(
+                  200, // Width
+                  200, // Height
+                  directoryPath + "/" + path.basename(file, ".pdf") + '.png', // Output file name
+                  80, // Quality from 0 to 100
+                  function (error, stdout, stderr, command) {
+                      if (!error) {
+                          console.log(command);
+                      } else {
+                          console.log(error);
+                      }
+                  }
+              );
+        }
     });
     //response.writeHead(200,{"Content-Type" : "application/json"});
     response.send(retarr);
@@ -88,7 +113,7 @@ app.get("/getNuclears", function(request, response){
 
 app.post("/saveAnnotations", upload.single('annotations'), function(request, response){
   response.end("saved to server");
-  console.log(req.body);
+  console.log(request.header);
 });
 
 app.listen(port);

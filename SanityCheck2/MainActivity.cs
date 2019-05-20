@@ -23,6 +23,7 @@ using pdftron.PDF.Tools;
 using pdftron.PDF.Tools.Utils;
 using static Android.Manifest;
 using AlertDialog = Android.Support.V7.App.AlertDialog;
+using Path = System.IO.Path;
 
 namespace SanityCheck2
 {
@@ -32,6 +33,7 @@ namespace SanityCheck2
         protected PDFViewCtrl mPdfViewCtrl;
         protected ToolManager mToolManager;
         protected PDFDoc currentPDFDoc;
+        protected String URLtoLoad;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -42,8 +44,8 @@ namespace SanityCheck2
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
-            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fab.Click += FabOnClick;
+            //FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
+            //fab.Click += FabOnClick;
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
@@ -52,19 +54,6 @@ namespace SanityCheck2
 
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
-
-            //var files = System.IO.Directory.GetFiles("/filesfolder");
-
-            //if (!files.Any())
-            //{
-
-            //} else
-            //{
-            //    foreach (var file in files)
-            //    {
-            //        pdfViewCtrl.Thumb
-            //    }
-            //}
 
             // pdfviewctrl stuff
 
@@ -107,7 +96,8 @@ namespace SanityCheck2
             PDFDoc document = mPdfViewCtrl.GetDoc();
             //Page firstpage = document.GetPage(1);
 
-            String URLtoLoad = this.Intent.GetStringExtra("DOCUMENT_TO_LOAD");
+            // ------------------- LOAD DOCUMENT FROM URL ON SERVER ------------------------ //
+            URLtoLoad = this.Intent.GetStringExtra("DOCUMENT_TO_LOAD");
             bool isDOCX = this.Intent.GetBooleanExtra("ISDOCX", false);
 
 
@@ -116,13 +106,15 @@ namespace SanityCheck2
                 loadNonPDF(URLtoLoad);
             }
             else
+            {
                 mPdfViewCtrl.OpenUrlAsync(URLtoLoad, this.CacheDir.AbsolutePath, null, httpRequestOptions);
+            }
 
             // ------------------- SETUP COMPARE DOCUMENTS OPTION --------------------- //
             // TODO
 
             // ------------------------ setup listeners --------------------------- //
-           
+
             // Thumbnail slider
             var firstThumbnailSlider = FindViewById<NativeThumbnailSlider>(Resource.Id.thumbnailSliderFirst);
             firstThumbnailSlider.MenuItemClicked += (sender, e) =>
@@ -216,6 +208,11 @@ namespace SanityCheck2
 
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+            
+        }
         public override void OnBackPressed()
         {
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -292,12 +289,13 @@ namespace SanityCheck2
                 StringContent bytestreamcontent = new StringContent(outputXFDF);
 
                 var multi = new MultipartFormDataContent();
-                multi.Add(bytestreamcontent, "samplefilename");
+                multi.Add(bytestreamcontent);
 
+                string filenameToSend = Path.GetFileNameWithoutExtension(Intent.GetStringExtra("DOCUMENT_TO_LOAD"));
                 bytestreamcontent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
                 {
                     Name = "annotations",
-                    FileName = "samplefilename"
+                    FileName = filenameToSend
                 };
 
                 //multi.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
@@ -316,8 +314,31 @@ namespace SanityCheck2
                 //System.Diagnostics.Debug.WriteLine(testXML);
 
                 //FDFDoc newAnnotationsLoaded = FDFDoc.CreateFromXFDF(outputXFDF);
-                //currentPDFDoc.FDFUpdate(newAnnotationsLoaded);
+                //currentPDFDoc.FDFUpdate(new FDFDoc(outputXFDFBytes, outputXFDFBytes.Length));
                 //mPdfViewCtrl.SetDoc(currentPDFDoc);
+            } else
+            {
+                WebClient client = new WebClient();
+                string annotationsFile = Path.GetFileNameWithoutExtension(URLtoLoad) + "_annots.xml";
+                string annotations = null;
+                try
+                {
+                    annotations = client.DownloadString("http://10.0.3.2:8080" + "/" + annotationsFile);
+                    System.Diagnostics.Debug.WriteLine("exported string is " + annotations);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("download annotations failed");
+                    System.Diagnostics.Debug.WriteLine(e);
+                }
+                if (annotations != null)
+                {
+                    var annotationsFDFDoc = FDFDoc.CreateFromXFDF(annotations);
+                    var currentPDFDoc = mPdfViewCtrl.GetDoc();
+                    currentPDFDoc.FDFUpdate(annotationsFDFDoc);
+                    mPdfViewCtrl.SetDoc(currentPDFDoc);
+                }
+
             }
 
             return base.OnOptionsItemSelected(item);
@@ -440,6 +461,48 @@ namespace SanityCheck2
             };
         }
 
+        //class mainLoadedListener : Java.Lang.Object, PDFViewCtrl.IDocumentLoadListener
+        //{
+        //    IntPtr IJavaObject.Handle => IntPtr.Zero;
+        //    private String URLtoLoad;
+        //    private PDFViewCtrl mPdfViewCtrl;
+
+        //    public mainLoadedListener() { }
+        //    public mainLoadedListener(string urltoload, PDFViewCtrl pdfctrl)
+        //    {
+        //        this.URLtoLoad = urltoload;
+        //        this.mPdfViewCtrl = pdfctrl;
+        //    }
+
+        //    public void Dispose()
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public void OnDocumentLoaded()
+        //    {
+        //        WebClient client = new WebClient();
+        //        string annotationsFile = Path.GetFileNameWithoutExtension(URLtoLoad) + "_annots.xml";
+        //        string annotations = null;
+        //        try
+        //        {
+        //            annotations = client.DownloadString("http://10.0.3.2:8080" + "/" + annotationsFile);
+        //            System.Diagnostics.Debug.WriteLine("exported string is " + annotations);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            System.Diagnostics.Debug.WriteLine("download annotations failed");
+        //            System.Diagnostics.Debug.WriteLine(e);
+        //        }
+        //        if (annotations != null)
+        //        {
+        //            var annotationsFDFDoc = FDFDoc.CreateFromXFDF(annotations);
+        //            var currentPDFDoc = mPdfViewCtrl.GetDoc();
+        //            currentPDFDoc.FDFUpdate(annotationsFDFDoc);
+        //            mPdfViewCtrl.SetDoc(currentPDFDoc);
+        //        }
+        //    }
+        //}
 
     }
 }
