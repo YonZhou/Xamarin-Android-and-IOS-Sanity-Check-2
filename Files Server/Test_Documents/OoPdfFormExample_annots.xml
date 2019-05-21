@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xfdf xmlns="http://ns.adobe.com/xfdf/" xml:space="preserve">
+	<pages>
+		<defmtx matrix="1.333333,0.000000,0.000000,-1.333333,0.000000,1122.666667" />
+	</pages>
+	<pdf-info version="2" xmlns="http://www.pdftron.com/pdfinfo" />
+</xfdf>

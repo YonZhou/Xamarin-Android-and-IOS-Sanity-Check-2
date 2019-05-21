@@ -93,7 +93,6 @@ namespace SanityCheck2
             bookmarksList.SetDialogFragmentTabs(tabs);
             bookmarksList.SetStyle((int)DialogFragmentStyle.NoTitle, Resource.Style.AppTheme);
 
-            PDFDoc document = mPdfViewCtrl.GetDoc();
             //Page firstpage = document.GetPage(1);
 
             // ------------------- LOAD DOCUMENT FROM URL ON SERVER ------------------------ //
@@ -336,6 +335,10 @@ namespace SanityCheck2
                     var annotationsFDFDoc = FDFDoc.CreateFromXFDF(annotations);
                     var currentPDFDoc = mPdfViewCtrl.GetDoc();
                     currentPDFDoc.FDFUpdate(annotationsFDFDoc);
+                    ContentReplacer replacer = new ContentReplacer();
+                    Page page = currentPDFDoc.GetPage(1);
+                    replacer.AddString("FIRST_NAME", "John");
+                    replacer.Process(page);
                     mPdfViewCtrl.SetDoc(currentPDFDoc);
                 }
 
