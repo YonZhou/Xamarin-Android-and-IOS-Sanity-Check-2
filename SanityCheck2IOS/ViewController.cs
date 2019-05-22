@@ -21,6 +21,9 @@ namespace SanityCheck2IOS
             var table = new UITableView(View.Bounds); // defaults to Plain style
 
             table.Source = new FileTableSource(GetFiles());
+            table.RowHeight = UITableView.AutomaticDimension;
+            table.EstimatedRowHeight = 100f;
+            table.ReloadData();
             Add(table);
         }
 

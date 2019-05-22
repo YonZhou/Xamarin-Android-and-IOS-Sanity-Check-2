@@ -23,37 +23,21 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="1578" rowHeight="115">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="115"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2644">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1578" id="1579">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="114.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2644" id="2645">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1582" translatesAutoresizingMaskIntoConstraints="NO" ambiguous="YES" misplaced="YES">
-                                                    <rect key="frame" x="7" y="4" width="187" height="107"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1583" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="268" y="47" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint id="1780" firstItem="1582" firstAttribute="top" secondItem="1579" secondAttribute="top" constant="4"/>
-                                                <constraint id="1781" firstItem="1582" firstAttribute="leading" secondItem="1579" secondAttribute="leading" constant="7"/>
-                                                <constraint id="1782" firstItem="1583" firstAttribute="leading" secondItem="1582" secondAttribute="trailing" constant="74"/>
-                                                <constraint id="1785" firstAttribute="trailing" secondItem="1583" secondAttribute="trailing" constant="104"/>
-                                                <constraint id="1786" firstItem="1583" firstAttribute="top" secondItem="1579" secondAttribute="top" constant="47"/>
-                                                <constraint id="1787" firstAttribute="bottom" secondItem="1583" secondAttribute="bottom" constant="46"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="maintable" destination="1577" id="name-outlet-1577"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

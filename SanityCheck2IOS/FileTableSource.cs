@@ -34,11 +34,19 @@ namespace SanityCheck2IOS
             if (cell == null)
             {
                 cell = new UITableViewCell(UITableViewCellStyle.Default, CellIdentifier);
-                cell.ImageView.Image = FromUrl("http://laptop-ejbj9ok5:8080/" + System.IO.Path.GetFileNameWithoutExtension(name) + ".png");
+                UIImageView cellImg = new UIImageView(new CoreGraphics.CGRect(0,0,100,100));
+                cellImg.Image = FromUrl("http://laptop-ejbj9ok5:8080/" + System.IO.Path.GetFileNameWithoutExtension(name) + ".png");
+                cell.AddSubview(cellImg);
+
+                UILabel celltxt = new UILabel(new CoreGraphics.CGRect(150, -25, 200, 100));
+                celltxt.Text = name;
+                cell.AddSubview(celltxt);
+
+                //cell.ImageView.Image = FromUrl("http://laptop-ejbj9ok5:8080/" + System.IO.Path.GetFileNameWithoutExtension(name) + ".png");
                 System.Diagnostics.Debug.WriteLine("loading image from " + "http://laptop-ejbj9ok5:8080/" + System.IO.Path.GetFileNameWithoutExtension(name) + ".png");
             }
 
-            cell.TextLabel.Text = name;
+            //cell.TextLabel.Text = name;
 
             return cell;
         }
@@ -54,6 +62,11 @@ namespace SanityCheck2IOS
             okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
             System.Diagnostics.Debug.WriteLine(FileNames[indexPath.Row]);
 	        tableView.DeselectRow(indexPath, true);
+        }
+
+        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 120;
         }
     }
 }
