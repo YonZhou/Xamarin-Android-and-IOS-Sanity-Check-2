@@ -10,10 +10,10 @@ namespace SanityCheck2IOS
 {
     public class FileTableSource : UITableViewSource
     {
-        string[] FileNames;
+        List<String> FileNames;
         //string[] ImageURLs;
         string CellIdentifier = "fileTableCell";
-        public FileTableSource(string[] fileNames)
+        public FileTableSource(List<String> fileNames)
         {
             this.FileNames = fileNames;
         }
@@ -26,6 +26,7 @@ namespace SanityCheck2IOS
         }
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
+
             UITableViewCell cell = tableView.DequeueReusableCell(CellIdentifier);
             string name = FileNames[indexPath.Row];
 
@@ -33,7 +34,8 @@ namespace SanityCheck2IOS
             if (cell == null)
             {
                 cell = new UITableViewCell(UITableViewCellStyle.Default, CellIdentifier);
-                cell.ImageView.Image = FromUrl("http://LAPTOP-EJBJ9OK5:8080/A17_FlightPlan.png");
+                cell.ImageView.Image = FromUrl("http://laptop-ejbj9ok5:8080/" + System.IO.Path.GetFileNameWithoutExtension(name) + ".png");
+                System.Diagnostics.Debug.WriteLine("loading image from " + "http://laptop-ejbj9ok5:8080/" + System.IO.Path.GetFileNameWithoutExtension(name) + ".png");
             }
 
             cell.TextLabel.Text = name;
@@ -43,14 +45,14 @@ namespace SanityCheck2IOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return FileNames.Length;
+            return FileNames.Count;
         }
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             UIAlertController okAlertController = UIAlertController.Create("Row Selected", FileNames[indexPath.Row], UIAlertControllerStyle.Alert);
             okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
-
+            System.Diagnostics.Debug.WriteLine(FileNames[indexPath.Row]);
 	        tableView.DeselectRow(indexPath, true);
         }
     }
