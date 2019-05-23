@@ -14,16 +14,8 @@ namespace SanityCheck2IOS
     [Register ("ViewController")]
     partial class ViewController
     {
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITableView maintable { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
-            if (maintable != null) {
-                maintable.Dispose ();
-                maintable = null;
-            }
         }
     }
 }

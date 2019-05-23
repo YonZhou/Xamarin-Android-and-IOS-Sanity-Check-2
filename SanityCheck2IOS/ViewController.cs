@@ -17,14 +17,19 @@ namespace SanityCheck2IOS
         {
             base.ViewDidLoad ();
             // Perform any additional setup after loading the view, typically from a nib.
-
+            pdftron.PDFNet.Initialize("demo:yzhou@pdftron.com:7458c53d015f540837d0782dcc022ec2e8f2864adea4cc4f8a");
             var table = new UITableView(View.Bounds); // defaults to Plain style
 
-            table.Source = new FileTableSource(GetFiles());
+            table.Source = new FileTableSource(GetFiles(), this.NavigationController);
             table.RowHeight = UITableView.AutomaticDimension;
             table.EstimatedRowHeight = 100f;
             table.ReloadData();
             Add(table);
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
         }
 
         public List<String> GetFiles()
@@ -56,6 +61,7 @@ namespace SanityCheck2IOS
                 }
             }
             return files;
+
         }
 
         public override void DidReceiveMemoryWarning ()
