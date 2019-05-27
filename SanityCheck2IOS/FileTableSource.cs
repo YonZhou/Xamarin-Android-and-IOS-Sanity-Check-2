@@ -42,7 +42,7 @@ namespace SanityCheck2IOS
             try
             {
                 documentController = new PTDocumentViewController();
-                documentController.Delegate = new LoadAnnotsViewDelegateWrapper();
+                documentController.Delegate = new AfterLoadViewDelegateWrapper();
 
             }
             catch (Exception e)
@@ -172,7 +172,7 @@ namespace SanityCheck2IOS
             try
             {
                 currentFileName = FileNames[indexPath.Row];
-                LoadAnnotsViewDelegateWrapper del = (LoadAnnotsViewDelegateWrapper)documentController.Delegate;
+                AfterLoadViewDelegateWrapper del = (AfterLoadViewDelegateWrapper)documentController.Delegate;
                 del.fileName = currentFileName;
                 documentController.OpenDocumentWithURL(new NSUrl("http://laptop-ejbj9ok5:8080/" + FileNames[indexPath.Row]));
                 //documentController.opendocument2(new NSUrl("http://laptop-ejbj9ok5:8080/" + FileNames[indexPath.Row]));

@@ -141,7 +141,7 @@
     <Compile Include="FileTableSource.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="LoadAnnotsViewDelegateWrapper.cs" />
+    <Compile Include="AfterLoadViewDelegateWrapper.cs" />
     <Compile Include="NukeToolIOS.cs" />
     <Compile Include="ViewController.cs" />
     <Compile Include="ViewController.designer.cs">

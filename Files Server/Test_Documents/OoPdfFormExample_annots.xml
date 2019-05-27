@@ -1,7 +1,257 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xfdf xmlns="http://ns.adobe.com/xfdf/" xml:space="preserve">
+	<fields>
+		<field name="Given Name Text Box">
+			<value>Test</value>
+		</field>
+		<field name="Family Name Text Box">
+			<value>bob</value>
+		</field>
+		<field name="House nr Text Box">
+			<value>bob</value>
+		</field>
+		<field name="Address 2 Text Box">
+			<value>bob</value>
+		</field>
+		<field name="Postcode Text Box">
+			<value>bob</value>
+		</field>
+		<field name="Country Combo Box" />
+		<field name="Height Formatted Field">
+			<value>bob</value>
+		</field>
+		<field name="City Text Box">
+			<value>bob</value>
+		</field>
+		<field name="Driving License Check Box">
+			<value>Off</value>
+		</field>
+		<field name="Favourite Colour List Box">
+			<value>Red</value>
+		</field>
+		<field name="Language 1 Check Box">
+			<value>Off</value>
+		</field>
+		<field name="Language 2 Check Box">
+			<value>Yes</value>
+		</field>
+		<field name="Language 3 Check Box">
+			<value>Off</value>
+		</field>
+		<field name="Language 4 Check Box">
+			<value>Off</value>
+		</field>
+		<field name="Language 5 Check Box">
+			<value>Off</value>
+		</field>
+		<field name="Gender List Box">
+			<value>Man</value>
+		</field>
+		<field name="Address 1 Text Box">
+			<value>bob</value>
+		</field>
+	</fields>
+	<annots />
 	<pages>
 		<defmtx matrix="1.333333,0.000000,0.000000,-1.333333,0.000000,1122.666667" />
 	</pages>
-	<pdf-info version="2" xmlns="http://www.pdftron.com/pdfinfo" />
+	<pdf-info version="2" xmlns="http://www.pdftron.com/pdfinfo">
+		<ffield max-len="40" tooltip-name="First name" name="Given Name Text Box" type="Tx">
+			<font type="TrueType" size="11" name="ArialMT" />
+		</ffield>
+		<ffield max-len="40" tooltip-name="Last name" name="Family Name Text Box" type="Tx">
+			<font type="TrueType" size="11" name="ArialMT" />
+		</ffield>
+		<ffield max-len="20" tooltip-name="House and floor" name="House nr Text Box" type="Tx">
+			<font type="TrueType" size="11" name="ArialMT" />
+		</ffield>
+		<ffield max-len="40" name="Address 2 Text Box" type="Tx">
+			<font type="TrueType" size="11" name="ArialMT" />
+		</ffield>
+		<ffield max-len="20" name="Postcode Text Box" type="Tx">
+			<font type="TrueType" size="11" name="ArialMT" />
+		</ffield>
+		<ffield flags="Combo Edit" tooltip-name="Use selection or write country name" name="Country Combo Box" type="Ch">
+			<font type="TrueType" size="11" name="ArialMT" />
+			<options>
+				<option value="Austria" />
+				<option value="Belgium" />
+				<option value="Britain" />
+				<option value="Bulgaria" />
+				<option value="Croatia" />
+				<option value="Cyprus" />
+				<option value="Czech-Republic" />
+				<option value="Denmark" />
+				<option value="Estonia" />
+				<option value="Finland" />
+				<option value="France" />
+				<option value="Germany" />
+				<option value="Greece" />
+				<option value="Hungary" />
+				<option value="Ireland" />
+				<option value="Italy" />
+				<option value="Latvia" />
+				<option value="Lithuania" />
+				<option value="Luxembourg" />
+				<option value="Malta" />
+				<option value="Netherlands" />
+				<option value="Poland" />
+				<option value="Portugal" />
+				<option value="Romania" />
+				<option value="Slovakia" />
+				<option value="Slovenia" />
+				<option value="Spain" />
+				<option value="Sweden" />
+			</options>
+		</ffield>
+		<ffield max-len="20" tooltip-name="Value from 40 to 250 cm" name="Height Formatted Field" type="Tx">
+			<default-value>150</default-value>
+			<font type="TrueType" size="11" name="ArialMT" />
+		</ffield>
+		<ffield max-len="40" name="City Text Box" type="Tx">
+			<font type="TrueType" size="11" name="ArialMT" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="Car driving license" name="Driving License Check Box" type="Btn">
+			<default-value>Off</default-value>
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="Combo" tooltip-name="Select from colour spectrum" name="Favourite Colour List Box" type="Ch">
+			<default-value>Red</default-value>
+			<font type="TrueType" size="11" name="ArialMT" />
+			<options>
+				<option value="Black" />
+				<option value="Brown" />
+				<option value="Red" />
+				<option value="Orange" />
+				<option value="Yellow" />
+				<option value="Green" />
+				<option value="Blue" />
+				<option value="Violet" />
+				<option value="Grey" />
+				<option value="White" />
+			</options>
+		</ffield>
+		<ffield flags="NoToggleToOff" name="Language 1 Check Box" type="Btn">
+			<default-value>Off</default-value>
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" name="Language 2 Check Box" type="Btn">
+			<default-value>Yes</default-value>
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" name="Language 3 Check Box" type="Btn">
+			<default-value>Off</default-value>
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" name="Language 4 Check Box" type="Btn">
+			<default-value>Off</default-value>
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" name="Language 5 Check Box" type="Btn">
+			<default-value>Off</default-value>
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="Combo" tooltip-name="Select from list" name="Gender List Box" type="Ch">
+			<default-value>Man</default-value>
+			<font type="TrueType" size="11" name="ArialMT" />
+			<options>
+				<option value="Man" />
+				<option value="Woman" />
+			</options>
+		</ffield>
+		<ffield max-len="40" name="Address 1 Text Box" type="Tx">
+			<font type="TrueType" size="11" name="ArialMT" />
+		</ffield>
+		<widget page="1" field="Given Name Text Box">
+			<rect y2="467.9" x2="315.7" y1="453.7" x1="165.7" />
+			<apref y="467.9" x="165.7" gennum="0" objnum="5" />
+		</widget>
+		<widget page="1" field="Family Name Text Box">
+			<rect y2="435.4" x2="315.7" y1="421.2" x1="165.7" />
+			<apref y="435.4" x="165.7" gennum="0" objnum="7" />
+		</widget>
+		<widget page="1" field="Address 1 Text Box">
+			<rect y2="402.5" x2="315.7" y1="388.3" x1="165.7" />
+			<apref y="402.5" x="165.7" gennum="0" objnum="23" />
+		</widget>
+		<widget page="1" field="House nr Text Box">
+			<rect y2="402.6" x2="446.9" y1="388.4" x1="378.4" />
+			<apref y="402.6" x="378.4" gennum="0" objnum="8" />
+		</widget>
+		<widget page="1" field="Address 2 Text Box">
+			<rect y2="382.6" x2="315.7" y1="368.4" x1="165.7" />
+			<apref y="382.6" x="165.7" gennum="0" objnum="9" />
+		</widget>
+		<widget page="1" field="Postcode Text Box">
+			<rect y2="362.7" x2="238.5" y1="348.5" x1="165.7" />
+			<apref y="362.7" x="165.7" gennum="0" objnum="10" />
+		</widget>
+		<widget page="1" field="City Text Box">
+			<rect y2="362.7" x2="447.2" y1="348.5" x1="297.1" />
+			<apref y="362.7" x="297.1" gennum="0" objnum="13" />
+		</widget>
+		<widget page="1" field="Country Combo Box">
+			<rect y2="330.1" x2="315.7" y1="315.9" x1="165.7" />
+		</widget>
+		<widget page="1" field="Gender List Box">
+			<rect y2="297.6" x2="241.2" y1="283.4" x1="165.7" />
+			<apref y="297.6" x="165.7" gennum="0" objnum="22" />
+		</widget>
+		<widget page="1" field="Height Formatted Field">
+			<rect y2="265" x2="238" y1="250.8" x1="165.7" />
+			<apref y="265" x="165.7" gennum="0" objnum="12" />
+		</widget>
+		<widget appearance="Off" page="1" field="Driving License Check Box">
+			<rect y2="232.3" x2="175.4" y1="221.4" x1="164.1" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="Yes" />
+			</appearances>
+			<captions Normal="8" />
+		</widget>
+		<widget appearance="Off" page="1" field="Language 1 Check Box">
+			<rect y2="188.5" x2="69" y1="177.6" x1="57.7" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="Yes" />
+			</appearances>
+			<captions Normal="8" />
+		</widget>
+		<widget appearance="Yes" page="1" field="Language 2 Check Box">
+			<rect y2="188.5" x2="166.1" y1="177.6" x1="154.8" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="Yes" />
+			</appearances>
+			<captions Normal="8" />
+		</widget>
+		<widget appearance="Off" page="1" field="Language 3 Check Box">
+			<rect y2="188.5" x2="263.1" y1="177.6" x1="251.8" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="Yes" />
+			</appearances>
+			<captions Normal="8" />
+		</widget>
+		<widget appearance="Off" page="1" field="Language 4 Check Box">
+			<rect y2="188.5" x2="354.1" y1="177.6" x1="342.8" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="Yes" />
+			</appearances>
+			<captions Normal="8" />
+		</widget>
+		<widget appearance="Off" page="1" field="Language 5 Check Box">
+			<rect y2="188.5" x2="451.1" y1="177.6" x1="439.8" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="Yes" />
+			</appearances>
+			<captions Normal="8" />
+		</widget>
+		<widget page="1" field="Favourite Colour List Box">
+			<rect y2="157.6" x2="322.8" y1="143.4" x1="165.7" />
+			<apref y="157.6" x="165.7" gennum="0" objnum="16" />
+		</widget>
+	</pdf-info>
 </xfdf>

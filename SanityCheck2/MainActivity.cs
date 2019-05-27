@@ -70,11 +70,15 @@ namespace SanityCheck2
                 .SetOpenToolbar(true)
                 .SetCopyAnnot(true)
                 .Build(this, mPdfViewCtrl);
+
+            // listener for when document is loaded
             mPdfViewCtrl.DocumentDownloaded += (sender, e) =>
             {
                 if (e.State == PDFViewCtrl.DownloadState.Finished)
                 {
                     loadAnnotations();
+                    formFill();
+                    mPdfViewCtrl.Update(true);
                 }
             };
             //mToolManager.OnDocumentDownloadEvent() 
@@ -500,7 +504,12 @@ namespace SanityCheck2
             FieldIterator itr;
             for(itr = mPdfViewCtrl.Doc.GetFieldIterator(); itr.HasNext(); itr.Next())
             {
-
+                Field.Type type = itr.Current().GetType();
+                if(type == Field.Type.e_text)
+                {
+                    itr.Current().SetValue("bob");
+                    itr.Current().RefreshAppearance();
+                }
             }
         }
 

@@ -14,7 +14,7 @@ using UIKit;
 
 namespace SanityCheck2IOS
 {
-    public class LoadAnnotsViewDelegateWrapper : PTDocumentViewControllerDelegate
+    public class AfterLoadViewDelegateWrapper : PTDocumentViewControllerDelegate
     {
         public string fileName { get; set; }
 
@@ -67,6 +67,24 @@ namespace SanityCheck2IOS
                 catch (Exception e)
                 {
                     System.Diagnostics.Debug.WriteLine(e);
+                }
+            }
+
+            formFill(documentViewController);
+            documentViewController.PdfViewCtrl.Update(true);
+        }
+
+        public void formFill(PTDocumentViewController dvc)
+        {
+            FieldIterator itr;
+            PDFDoc documentconverted = TypeConvertHelper.ConvPdfDocToManaged(dvc.Document);
+            for (itr = documentconverted.GetFieldIterator(); itr.HasNext(); itr.Next())
+            {
+                Field.Type type = itr.Current().GetType();
+                if (type == Field.Type.e_text)
+                {
+                    itr.Current().SetValue("bob");
+                    itr.Current().RefreshAppearance();
                 }
             }
         }
