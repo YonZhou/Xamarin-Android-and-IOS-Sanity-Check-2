@@ -138,10 +138,10 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomDocumentViewCtrl.cs" />
     <Compile Include="FileTableSource.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="NamedViewControllerWrapper.cs" />
     <Compile Include="NukeToolIOS.cs" />
     <Compile Include="ViewController.cs" />
     <Compile Include="ViewController.designer.cs">
@@ -156,6 +156,12 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="nuclear_hazard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="upload_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="download_arrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 using Foundation;
@@ -10,7 +11,11 @@ using pdftron.FDF;
 using pdftron.PDF;
 using pdftron.PDF.Controls;
 using pdftron.PDF.Tools;
+using pdftronprivate;
 using UIKit;
+using pdftron.Common;
+using pdftron.SDF;
+using System.IO;
 
 namespace SanityCheck2IOS
 {
@@ -20,12 +25,105 @@ namespace SanityCheck2IOS
         //string[] ImageURLs;
         string CellIdentifier = "fileTableCell";
         PTToolManager mToolManager;
+        public string currentFileName;
+        PTPDFViewCtrl mpdfviewctrl;
+        public NamedViewControllerWrapper documentController;
 
         private UINavigationController primNav { get; set; }
         public FileTableSource(List<String> fileNames, UINavigationController primNav)
         {
             this.FileNames = fileNames;
             this.primNav = primNav;
+
+            //UIAlertController okAlertController = UIAlertController.Create("Row Selected", FileNames[indexPath.Row], UIAlertControllerStyle.Alert);
+            //okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+            // Create a PTDocumentViewController
+            try
+            {
+                documentController = new NamedViewControllerWrapper();
+                documentController.Delegate = new customviewdelegate();
+
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+
+            // The PTDocumentViewController must be in a navigation controller before a document can be opened
+            //var docnavigationController = new UINavigationController(documentController);
+
+            // documentcontroller should be initialized at this point
+            mpdfviewctrl = documentController.PdfViewCtrl;
+            mpdfviewctrl.SetBackgroundColor(255,105,180,255);
+
+            //mpdfviewctrl.DownloadEventType += (sender, e) =>
+            //{
+            //    if (e.Type == DownloadTypes.e_downloadtype_finished)
+            //    {
+            //        integrateAnnotations(mpdfviewctrl.GetDoc());
+            //    }
+
+            //};
+
+            mToolManager = documentController.ToolManager;
+
+            var nukeButton = new UIBarButtonItem();
+            var rightButtons = documentController.NavigationItem.RightBarButtonItems;
+            nukeButton.Image = UIImage.FromFile("nukeToolIcon.png");
+            nukeButton.Width = 40f;
+            nukeButton.Clicked += (sender, e) => {
+                var newTool = mToolManager.ChangeTool(new Class(typeof(pdftron.PDF.Tools.PTImageStampCreate)));
+                ((pdftron.PDF.Tools.PTTool)newTool).BackToPanToolAfterUse = true;
+                System.Diagnostics.Debug.WriteLine("reached");
+
+                //mToolManager.Tool = new pdftron.PDF.Tools.PTImageStampCreate();
+                //Stamper s = new Stamper(Stamper.SizeType.e_relative_scale, .05, .05);
+                //s.SetAlignment(Stamper.HorizontalAlignment.e_horizontal_left, Stamper.VerticalAlignment.e_vertical_center);
+                //s.SetFontColor(new ColorPt(0, 0, 0, 0));
+                //s.SetRotation(180);
+                //s.SetAsBackground(false);
+                //s.StampImage(doc., null, new PageSet(1));
+
+                var client = new HttpClient();
+                client.BaseAddress = new Uri("http://laptop-ejbj9ok5:8080");
+                client.PostAsync("/logNuclear", null);
+
+            };
+
+            UIBarButtonItem uploadAnnotsButton = new UIBarButtonItem();
+            uploadAnnotsButton.Image = UIImage.FromFile("upload_arrow.png");
+            uploadAnnotsButton.Width = 40f;
+            uploadAnnotsButton.Clicked += (sender, e) =>
+            {
+                var currentDoc = mpdfviewctrl.GetDoc();
+                logAnnotations(currentDoc);
+            };
+
+            UIBarButtonItem downloadAnnotsButton = new UIBarButtonItem();
+            downloadAnnotsButton.Image = UIImage.FromFile("download_arrow.png");
+            downloadAnnotsButton.Width = 40f;
+            downloadAnnotsButton.Clicked += (sender, e) =>
+            {
+                var currentDoc = mpdfviewctrl.GetDoc();
+                integrateAnnotations(currentDoc);
+            };
+
+            List<UIBarButtonItem> rightButtonsList = new List<UIBarButtonItem>();
+            for (int i = 0; i < rightButtons.Length; i++)
+            {
+                rightButtonsList.Add(rightButtons[i]);
+            }
+            //Array.Resize(ref rightButtons, rightButtons.Length+1);
+            //rightButtons[rightButtons.Length-1] = nukeButton;
+            rightButtonsList.Add(nukeButton);
+            rightButtonsList.Add(downloadAnnotsButton);
+            rightButtonsList.Add(uploadAnnotsButton);
+
+            if (rightButtons != null)
+            {
+                documentController.NavigationItem.RightBarButtonItems = rightButtonsList.ToArray();
+            }
         }
 
         public static UIImage FromUrl(string uri)
@@ -68,70 +166,19 @@ namespace SanityCheck2IOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            //UIAlertController okAlertController = UIAlertController.Create("Row Selected", FileNames[indexPath.Row], UIAlertControllerStyle.Alert);
-            //okAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
-            System.Diagnostics.Debug.WriteLine(FileNames[indexPath.Row]);
-	        tableView.DeselectRow(indexPath, true);
-
-            // Create a PTDocumentViewController
-            PTDocumentViewController documentController = null;
-            try
-            {
-                documentController = new PTDocumentViewController();
-
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e);
-            }
-
-            // The PTDocumentViewController must be in a navigation controller before a document can be opened
-            //var docnavigationController = new UINavigationController(documentController);
+            tableView.DeselectRow(indexPath, true);
 
             // Open an existing local file URL.
             try
             {
+                currentFileName = FileNames[indexPath.Row];
+                documentController.setFileName(currentFileName);
                 documentController.OpenDocumentWithURL(new NSUrl("http://laptop-ejbj9ok5:8080/" + FileNames[indexPath.Row]));
-            } catch (Exception e)
+                //documentController.opendocument2(new NSUrl("http://laptop-ejbj9ok5:8080/" + FileNames[indexPath.Row]));
+            }
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
-            }
-
-            // documentcontroller should be initialized at this point
-            var mpdfviewctrl = documentController.PdfViewCtrl;
-            var doc = mpdfviewctrl.GetDoc();
-            logAnnotations(doc);
-
-            mToolManager = documentController.ToolManager;
-
-            var nukeButton = new UIBarButtonItem();
-            var rightButtons = documentController.NavigationItem.RightBarButtonItems;
-            nukeButton.Image = UIImage.FromFile("nukeToolIcon.png");
-            nukeButton.Width = rightButtons[0].Width;
-            nukeButton.Clicked += (sender, e) => {
-                var newTool = mToolManager.ChangeTool(new Class(typeof(pdftron.PDF.Tools.PTImageStampCreate)));
-                ((pdftron.PDF.Tools.PTTool)newTool).BackToPanToolAfterUse = true;
-                System.Diagnostics.Debug.WriteLine("reached");
-
-                //mToolManager.Tool = new pdftron.PDF.Tools.PTImageStampCreate();
-                //Stamper s = new Stamper(Stamper.SizeType.e_relative_scale, .05, .05);
-                //s.SetAlignment(Stamper.HorizontalAlignment.e_horizontal_left, Stamper.VerticalAlignment.e_vertical_center);
-                //s.SetFontColor(new ColorPt(0, 0, 0, 0));
-                //s.SetRotation(180);
-                //s.SetAsBackground(false);
-                //s.StampImage(doc., null, new PageSet(1));
-
-
-            };
-
-
-
-            Array.Resize(ref rightButtons, rightButtons.Length+1);
-            rightButtons[rightButtons.Length-1] = nukeButton;
-
-            if (rightButtons != null)
-            {
-                documentController.NavigationItem.RightBarButtonItems = rightButtons;
             }
 
             primNav.PushViewController(documentController, true);
@@ -142,11 +189,79 @@ namespace SanityCheck2IOS
             return 120;
         }
 
-        public void logAnnotations(pdftronprivate.PTPDFDoc document)
+        public void logAnnotations(PTPDFDoc document)
         {
-            pdftron.PDF.PDFViewCtrl ctrl = new pdftron.PDF.PDFViewCtrl();
+            var currentPDFDoc = TypeConvertHelper.ConvPdfDocToManaged(document);
+            WebClient client = new WebClient();
 
-            pdftron.PDF.PDFDoc doc = new pdftron.PDF.PDFDoc();
+            FDFDoc annotationsDoc = currentPDFDoc.FDFExtract(PDFDoc.ExtractFlag.e_both);
+            String outputXFDF = annotationsDoc.SaveAsXFDF();
+
+            StringContent bytestreamcontent = new StringContent(outputXFDF);
+
+            var multi = new MultipartFormDataContent();
+            multi.Add(bytestreamcontent);
+
+            string filenameToSend = Path.GetFileNameWithoutExtension(currentFileName);
+            bytestreamcontent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
+            {
+                Name = "annotations",
+                FileName = filenameToSend
+            };
+
+            var Httpclient = new HttpClient();
+            Httpclient.BaseAddress = new Uri("http://laptop-ejbj9ok5:8080");
+            Httpclient.PostAsync("/saveAnnotations", multi);
+
+        }
+
+        public void integrateAnnotations(PTPDFDoc document)
+        {
+            WebClient client = new WebClient();
+            string annotationsFile = Path.GetFileNameWithoutExtension(currentFileName) + "_annots.xml";
+            string annotations = null;
+            try
+            {
+                annotations = client.DownloadString("http://laptop-ejbj9ok5:8080" + "/" + annotationsFile);
+                //System.Diagnostics.Debug.WriteLine("exported string is " + annotations);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("download annotations failed");
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            if (annotations != null)
+            {
+                try
+                {
+                    mpdfviewctrl.DocLock(true);
+                  
+                    int previousPage = mpdfviewctrl.GetCurrentPage();
+                    var annotationsFDFDoc = FDFDoc.CreateFromXFDF(annotations);
+
+                    var currentPDFDoc = TypeConvertHelper.ConvPdfDocToManaged(document);
+                    currentPDFDoc.FDFUpdate(annotationsFDFDoc);
+                    //ContentReplacer replacer = new ContentReplacer();
+                    //Page page = currentPDFDoc.GetPage(1);
+                    //replacer.AddString("FIRST_NAME", "John");
+                    //replacer.Process(page);
+                    //PTPDFDoc newDocument = TypeConvertHelper.ConvPDFDocToNative(currentPDFDoc);
+                    mpdfviewctrl.Update(true);
+                    mpdfviewctrl.DocUnlock();
+
+
+                    //mpdfviewctrl.SetDoc(newDocument);
+                    //mpdfviewctrl.SetCurrentPage(previousPage);
+
+                    //mpdfviewctrl.DocUnlock();
+
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                }
+            }
+
         }
     }
 }

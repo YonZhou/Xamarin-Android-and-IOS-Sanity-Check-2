@@ -67,7 +67,14 @@ namespace SanityCheck2
                 .SetOpenToolbar(true)
                 .SetCopyAnnot(true)
                 .Build(this, mPdfViewCtrl);
-
+            mPdfViewCtrl.DocumentDownloaded += (sender, e) =>
+            {
+                if (e.State == PDFViewCtrl.DownloadState.Finished)
+                {
+                    loadAnnotations();
+                }
+            };
+            //mToolManager.OnDocumentDownloadEvent() 
             // ---------------- SETUP THUMBNAIL SLIDER CONTAINER ------------------ //
 
             var thumbDiag = ThumbnailsViewFragment.NewInstance();
@@ -107,6 +114,7 @@ namespace SanityCheck2
             else
             {
                 mPdfViewCtrl.OpenUrlAsync(URLtoLoad, this.CacheDir.AbsolutePath, null, httpRequestOptions);
+                //mPdfViewCtrl.AddDocumentLoadListener();
             }
 
             // ------------------- SETUP COMPARE DOCUMENTS OPTION --------------------- //
@@ -210,12 +218,12 @@ namespace SanityCheck2
         protected override void OnStart()
         {
             base.OnStart();
-            
+
         }
         public override void OnBackPressed()
         {
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if(drawer.IsDrawerOpen(GravityCompat.Start))
+            if (drawer.IsDrawerOpen(GravityCompat.Start))
             {
                 drawer.CloseDrawer(GravityCompat.Start);
             }
@@ -262,7 +270,8 @@ namespace SanityCheck2
                 searchToolbar.Visibility = ViewStates.Visible;
                 searchOverlay.Visibility = ViewStates.Visible;
                 return true;
-            }else if(id == Resource.Id.stampButton)
+            }
+            else if (id == Resource.Id.stampButton)
             {
                 File nukeImage = Utils.CopyResourceToLocal(mPdfViewCtrl.Context, Resource.Raw.nuclear_hazard, "nuclear_hazard", ".png");
                 var nukeTool = new NuclearTool(mPdfViewCtrl, nukeImage);
@@ -271,13 +280,14 @@ namespace SanityCheck2
                 //mToolManager.EnableAnnotManager();
 
                 return true;
-            } else if(id == Resource.Id.saveAnnotationsButton)
+            }
+            else if (id == Resource.Id.saveAnnotationsButton)
             {
                 WebClient client = new WebClient();
                 currentPDFDoc = mPdfViewCtrl.GetDoc();
 
 
-                FDFDoc annotationsDoc = currentPDFDoc.FDFExtract(PDFDoc.ExtractFlag.e_annots_only);
+                FDFDoc annotationsDoc = currentPDFDoc.FDFExtract(PDFDoc.ExtractFlag.e_both);
                 String outputXFDF = annotationsDoc.SaveAsXFDF();
                 //System.Diagnostics.Debug.WriteLine("annotations " + annotationsDoc.SaveAsXFDF());
 
@@ -306,7 +316,7 @@ namespace SanityCheck2
                 var Httpclient = new HttpClient();
                 Httpclient.BaseAddress = new Uri("http://10.0.3.2:8080");
                 Httpclient.PostAsync("/saveAnnotations", multi);
-    
+
                 // --------- below only for debugging purposes ----------------//
                 //String testXML = File.readalltext();
                 //String testXML = "";
@@ -315,34 +325,12 @@ namespace SanityCheck2
                 //FDFDoc newAnnotationsLoaded = FDFDoc.CreateFromXFDF(outputXFDF);
                 //currentPDFDoc.FDFUpdate(new FDFDoc(outputXFDFBytes, outputXFDFBytes.Length));
                 //mPdfViewCtrl.SetDoc(currentPDFDoc);
-            } else if (id == Resource.Id.loadAnnotationsButton)
+            }
+            else if (id == Resource.Id.loadAnnotationsButton)
             {
-                WebClient client = new WebClient();
-                string annotationsFile = Path.GetFileNameWithoutExtension(URLtoLoad) + "_annots.xml";
-                string annotations = null;
-                try
-                {
-                    annotations = client.DownloadString("http://10.0.3.2:8080" + "/" + annotationsFile);
-                    System.Diagnostics.Debug.WriteLine("exported string is " + annotations);
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine("download annotations failed");
-                    System.Diagnostics.Debug.WriteLine(e);
-                }
-                if (annotations != null)
-                {
-                    var annotationsFDFDoc = FDFDoc.CreateFromXFDF(annotations);
-                    var currentPDFDoc = mPdfViewCtrl.GetDoc();
-                    currentPDFDoc.FDFUpdate(annotationsFDFDoc);
-                    ContentReplacer replacer = new ContentReplacer();
-                    Page page = currentPDFDoc.GetPage(1);
-                    replacer.AddString("FIRST_NAME", "John");
-                    replacer.Process(page);
-                    mPdfViewCtrl.SetDoc(currentPDFDoc);
-                }
-
-            } else if(id == Resource.Id.compareFilesButton)
+                loadAnnotations();
+            }
+            else if (id == Resource.Id.compareFilesButton)
             {
                 DiffActivity.Open(this);
             }
@@ -352,7 +340,7 @@ namespace SanityCheck2
 
         private void FabOnClick(object sender, EventArgs eventArgs)
         {
-            View view = (View) sender;
+            View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
                 .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
         }
@@ -467,6 +455,55 @@ namespace SanityCheck2
             };
         }
 
+        public void loadAnnotations()
+        {
+            WebClient client = new WebClient();
+            string annotationsFile = Path.GetFileNameWithoutExtension(URLtoLoad) + "_annots.xml";
+            string annotations = null;
+            try
+            {
+                annotations = client.DownloadString("http://10.0.3.2:8080" + "/" + annotationsFile);
+                System.Diagnostics.Debug.WriteLine("exported string is " + annotations);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("download annotations failed");
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            if (annotations != null)
+            {
+                currentPDFDoc = mPdfViewCtrl.GetDoc();
+
+                mPdfViewCtrl.DocLock(true);
+
+                int previousPage = mPdfViewCtrl.CurrentPage;
+                var annotationsFDFDoc = FDFDoc.CreateFromXFDF(annotations);
+
+                currentPDFDoc.FDFUpdate(annotationsFDFDoc);
+                //ContentReplacer replacer = new ContentReplacer();
+                //Page page = currentPDFDoc.GetPage(1);
+                //replacer.AddString("FIRST_NAME", "John");
+                //replacer.Process(page);
+                //PTPDFDoc newDocument = TypeConvertHelper.ConvPDFDocToNative(currentPDFDoc);
+                mPdfViewCtrl.DocUnlock();
+                mPdfViewCtrl.Update(true);
+                //var annotationsFDFDoc = FDFDoc.CreateFromXFDF(annotations);
+                //var currentPDFDoc = mPdfViewCtrl.GetDoc();
+                //currentPDFDoc.FDFUpdate(annotationsFDFDoc);
+
+            }
+            
+        }
+
+        public void formFill()
+        {
+            FieldIterator itr;
+            for(itr = mPdfViewCtrl.Doc.GetFieldIterator(); itr.HasNext(); itr.Next())
+            {
+
+            }
+        }
+
         //class mainLoadedListener : Java.Lang.Object, PDFViewCtrl.IDocumentLoadListener
         //{
         //    IntPtr IJavaObject.Handle => IntPtr.Zero;
@@ -485,31 +522,8 @@ namespace SanityCheck2
         //        throw new NotImplementedException();
         //    }
 
-        //    public void OnDocumentLoaded()
-        //    {
-        //        WebClient client = new WebClient();
-        //        string annotationsFile = Path.GetFileNameWithoutExtension(URLtoLoad) + "_annots.xml";
-        //        string annotations = null;
-        //        try
-        //        {
-        //            annotations = client.DownloadString("http://10.0.3.2:8080" + "/" + annotationsFile);
-        //            System.Diagnostics.Debug.WriteLine("exported string is " + annotations);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            System.Diagnostics.Debug.WriteLine("download annotations failed");
-        //            System.Diagnostics.Debug.WriteLine(e);
-        //        }
-        //        if (annotations != null)
-        //        {
-        //            var annotationsFDFDoc = FDFDoc.CreateFromXFDF(annotations);
-        //            var currentPDFDoc = mPdfViewCtrl.GetDoc();
-        //            currentPDFDoc.FDFUpdate(annotationsFDFDoc);
-        //            mPdfViewCtrl.SetDoc(currentPDFDoc);
-        //        }
-        //    }
-        //}
 
     }
 }
+
 

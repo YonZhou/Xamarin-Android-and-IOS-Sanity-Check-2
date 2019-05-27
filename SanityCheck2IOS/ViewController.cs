@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using Newtonsoft.Json;
+using pdftron.PDF.Controls;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -11,6 +12,7 @@ namespace SanityCheck2IOS
     {
         public ViewController (IntPtr handle) : base (handle)
         {
+            
         }
 
         public override void ViewDidLoad ()
@@ -20,11 +22,47 @@ namespace SanityCheck2IOS
             pdftron.PDFNet.Initialize("demo:yzhou@pdftron.com:7458c53d015f540837d0782dcc022ec2e8f2864adea4cc4f8a");
             var table = new UITableView(View.Bounds); // defaults to Plain style
 
-            table.Source = new FileTableSource(GetFiles(), this.NavigationController);
+            var filetableObject = new FileTableSource(GetFiles(), this.NavigationController);
+            table.Source = filetableObject;
             table.RowHeight = UITableView.AutomaticDimension;
             table.EstimatedRowHeight = 100f;
+
+            UIBarButtonItem compareFilesButton = new UIBarButtonItem("Compare Files", UIBarButtonItemStyle.Plain, null);
+            //UIBarButtonItem backButton = new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Plain, null);
+
+            //compareFilesButton.Frame = new CoreGraphics.CGRect(25,25,300,150);
+
+            compareFilesButton.Clicked += (sender, e) =>
+            {
+                var diffController = new PTDiffViewController();
+                if(!(Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Phone))
+                {
+                    NavigationController.ModalPresentationStyle = UIModalPresentationStyle.Popover;
+                    //NavigationController.PopoverPresentationController.SourceView = btn;
+                    //NavigationController.PopoverPresentationController.SourceRect = btn.Bounds;
+                }
+
+                diffController.DidCreateDiffFileAtURL += (sender2, e2) =>
+                {
+                    PTDocumentViewController controller = new PTDocumentViewController();
+                    //filetableObject.documentController.OpenDocumentWithURL(e2.FileURL);
+                    controller.OpenDocumentWithURL(e2.FileURL);
+                    this.NavigationController.PushViewController(controller, true);
+                };
+
+                this.NavigationController.PushViewController(diffController, true);
+            };
+
+            //backButton.Clicked += (sender, e) =>
+            //{
+            //    this.NavigationController.PopViewController(true);
+            //};
+
+
             table.ReloadData();
             Add(table);
+            NavigationItem.BackBarButtonItem = new UIBarButtonItem { Title = "Back" };
+            NavigationController.NavigationBar.TopItem.RightBarButtonItem = compareFilesButton;
         }
 
         public override void ViewDidAppear(bool animated)

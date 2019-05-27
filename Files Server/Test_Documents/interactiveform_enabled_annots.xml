@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xfdf xmlns="http://ns.adobe.com/xfdf/" xml:space="preserve">
+	<fields>
+		<field name="HIGH SCHOOL DIPLOMA" />
+		<field name="TRADE CERTIFICATE" />
+		<field name="COLLEGE NO DEGREE" />
+		<field name="PHD" />
+		<field name="OTHER DOCTORATE" />
+		<field name="ASSOCIATES DEGREE" />
+		<field name="MASTERS DEGREE" />
+		<field name="PROFESSIONAL DEGREE" />
+		<field name="STATE" />
+		<field name="ZIP" />
+		<field name="EMPLOYEE SIGNATURE" />
+		<field name="Name_Last">
+			<value>test</value>
+		</field>
+		<field name="Name_First" />
+		<field name="Name_Middle" />
+		<field name="Name_Suffix" />
+		<field name="Name_Prefix" />
+		<field name="Telephone_Home" />
+		<field name="Telephone_Work" />
+		<field name="SSN" />
+		<field name="BACHELORS DEGREE" />
+		<field name="Address_1" />
+		<field name="Address_2" />
+		<field name="City" />
+		<field name="Emergency_Phone" />
+		<field name="Emergency_Contact" />
+		<field name="Emergency_Relationship" />
+		<field name="Sex" />
+		<field name="Birthdate" />
+		<field name="Print" />
+	</fields>
+	<annots>
+		<link style="solid" width="0" name="69954d93-50c2-459c-9488-66d44ac01ee5" page="0" rect="75.4537,616.28,127.463,628.3">
+			<OnActivation>
+				<Action Trigger="U">
+					<URI Name="http://help.adobe.com/en_US/Acrobat/9.0/Standard/WSB3F26303-0F1D-494a-BC55-7BF7F6684B4D.html" />
+				</Action>
+			</OnActivation>
+		</link>
+		<link style="solid" width="0" name="e8d4f5a9-d7a2-4816-8a29-f735fd495929" page="0" rect="305.88,601.28,369.109,613.3">
+			<OnActivation>
+				<Action Trigger="U">
+					<URI Name="http://help.adobe.com/en_US/Acrobat/9.0/Standard/WS2DE764BD-5706-4e3a-9360-5F2F968223AC.w.html" />
+				</Action>
+			</OnActivation>
+		</link>
+		<line width="2" color="#FF0000" creationdate="D:20090415083334-07'00'" flags="print" IT="LineArrow" start="588.318,784.843" end="597.065,685.445" head="OpenArrow" tail="None" date="D:20090423082513-07'00'" name="757a0f59-270d-4c4a-a725-125d82772bdf" page="0" rect="575.038,679.445,604.971,790.843" subject="Line" title="pdsokol">
+			<contents-richtext><body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="Acrobat:9.1.0" xfa:spec="2.0.2" ><p dir="ltr"><span dir="ltr" style="font-size:10.0pt;text-align:left;color:#000000;font-weight:normal;font-style:normal">Look! Up at the top! The purple document message bar lets you know there are fillable fields in this PDF.</span></p></body></contents-richtext>
+			<popup flags="print,nozoom,norotate" open="yes" page="0" rect="612,611.168,792,731.168" />
+			<contents>Look! Up at the top! The purple document message bar lets you know there are fillable fields in this PDF.</contents>
+			<apref y="790.843" x="575.038" gennum="0" objnum="131" />
+		</line>
+		<text color="#FFFF00" creationdate="D:20090415083404-07'00'" flags="print,nozoom,norotate" date="D:20090415083637-07'00'" name="b4fb1949-32d2-4712-b661-7fdff5732e70" icon="Comment" page="0" rect="38.9641,244.407,58.9641,262.407" subject="Sticky Note" title="pdsokol">
+			<contents-richtext><body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="Acrobat:9.1.0" xfa:spec="2.0.2" ><p dir="ltr"><span dir="ltr" style="font-size:10.0pt;text-align:left;color:#000000;font-weight:normal;font-style:normal">Form creators can set text field properties so that they automatically format for telephone numbers, dates, and even social security numbers.</span></p></body></contents-richtext>
+			<popup flags="print,nozoom,norotate" open="yes" page="0" rect="-223.447,198.288,-43.4472,318.07" />
+			<contents>Form creators can set text field properties so that they automatically format for telephone numbers, dates, and even social security numbers.</contents>
+			<apref y="262.407" x="38.9641" gennum="0" objnum="133" />
+		</text>
+		<text color="#FFFF00" creationdate="D:20090415085442-07'00'" flags="print,nozoom,norotate" date="D:20090423082558-07'00'" name="90d6643e-a556-4086-9a0c-324298fb566f" icon="Comment" page="0" rect="222.592,62.1645,242.592,80.1645" subject="Sticky Note" title="pdsokol">
+			<contents-richtext><body xmlns="http://www.w3.org/1999/xhtml" xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/" xfa:APIVersion="Acrobat:9.1.0" xfa:spec="2.0.2" ><p dir="ltr"><span dir="ltr" style="font-size:10.0pt;text-align:left;color:#000000;font-weight:normal;font-style:normal">For this example the Submit Form button has not been enabled. Usually, clicking this button will either submit the data to a server or create an email to send the data.</span></p></body></contents-richtext>
+			<popup flags="print,nozoom,norotate" open="yes" page="0" rect="-221.062,24.1421,-41.0616,143.924" />
+			<contents>For this example the Submit Form button has not been enabled. Usually, clicking this button will either submit the data to a server or create an email to send the data.</contents>
+			<apref y="80.1645" x="222.592" gennum="0" objnum="135" />
+		</text>
+	</annots>
+	<pages>
+		<defmtx matrix="1.333333,0.000000,0.000000,-1.333333,0.000000,1056.000000" />
+	</pages>
+	<pdf-info version="2" xmlns="http://www.pdftron.com/pdfinfo">
+		<document-actions>
+			<action trigger="Open">
+				<goto>
+					<dest page="1" fit="Fit" />
+				</goto>
+			</action>
+		</document-actions>
+		<ffield flags="NoToggleToOff" tooltip-name="HIGH SCHOOL DIPLOMA" name="HIGH SCHOOL DIPLOMA" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="TRADE CERTIFICATE" name="TRADE CERTIFICATE" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="COLLEGE -NO DEGREE" name="COLLEGE NO DEGREE" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="PH.D" name="PHD" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="OTHER DOCTORATE" name="OTHER DOCTORATE" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="ASSOCIATE’S DEGREE" name="ASSOCIATES DEGREE" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="MASTER’S DEGREE" name="MASTERS DEGREE" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="PROFESSIONAL DEGREE" name="PROFESSIONAL DEGREE" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield max-len="2" flags="DoNotSpellCheck" tooltip-name="STATE" name="STATE" type="Tx">
+			<font name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="ZIP" name="ZIP" type="Tx">
+			<actions>
+				<action trigger="F">
+					<javascript>AFSpecial_Format(0);</javascript>
+				</action>
+				<action trigger="K">
+					<javascript>AFSpecial_Keystroke(0);</javascript>
+				</action>
+			</actions>
+			<font name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="EMPLOYEE SIGNATURE" name="EMPLOYEE SIGNATURE" type="Sig">
+			<font name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="LAST" name="Name_Last" type="Tx">
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="FIRST" name="Name_First" type="Tx">
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="MIDDLE" name="Name_Middle" type="Tx">
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="SUFFIx" name="Name_Suffix" type="Tx">
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="PREFIx" name="Name_Prefix" type="Tx">
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="HOME" name="Telephone_Home" type="Tx">
+			<actions>
+				<action trigger="F">
+					<javascript>AFSpecial_Format(2);</javascript>
+				</action>
+				<action trigger="K">
+					<javascript>AFSpecial_Keystroke(2);</javascript>
+				</action>
+			</actions>
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="WORK" name="Telephone_Work" type="Tx">
+			<actions>
+				<action trigger="F">
+					<javascript>AFSpecial_Format(2);</javascript>
+				</action>
+				<action trigger="K">
+					<javascript>AFSpecial_Keystroke(2);</javascript>
+				</action>
+			</actions>
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="SOCIAL SECURITY NO. (MANDATORY" name="SSN" type="Tx">
+			<actions>
+				<action trigger="F">
+					<javascript>AFSpecial_Format(3);</javascript>
+				</action>
+				<action trigger="K">
+					<javascript>AFSpecial_Keystroke(3);</javascript>
+				</action>
+			</actions>
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield flags="NoToggleToOff" tooltip-name="bACHELOR’S DEGREE" name="BACHELORS DEGREE" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield tooltip-name="STREET" name="Address_1" type="Tx">
+			<font size="10" name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="[1]" name="Address_2" type="Tx">
+			<font name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="[2]" name="City" type="Tx">
+			<font name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="PHONE" name="Emergency_Phone" type="Tx">
+			<actions>
+				<action trigger="F">
+					<javascript>AFSpecial_Format(2);</javascript>
+				</action>
+				<action trigger="K">
+					<javascript>AFSpecial_Keystroke(2);</javascript>
+				</action>
+			</actions>
+			<font name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="NAME" name="Emergency_Contact" type="Tx">
+			<font name="Helvetica" />
+		</ffield>
+		<ffield tooltip-name="RELATIONSHIP" name="Emergency_Relationship" type="Tx">
+			<font name="Helvetica" />
+		</ffield>
+		<ffield flags="NoToggleToOff Radio" tooltip-name="SEx" name="Sex" type="Btn">
+			<font name="ZapfDingbats" />
+		</ffield>
+		<ffield tooltip-name="MONTH/DAY/YEAR" name="Birthdate" type="Tx">
+			<actions>
+				<action trigger="F">
+					<javascript>AFDate_FormatEx(&quot;mm/dd/yyyy&quot;);</javascript>
+				</action>
+				<action trigger="K">
+					<javascript>AFDate_KeystrokeEx(&quot;mm/dd/yyyy&quot;);</javascript>
+				</action>
+			</actions>
+			<font name="Helvetica" />
+		</ffield>
+		<ffield flags="PushButton" name="Print" type="Btn">
+			<font size="12" name="Helvetica-Bold" />
+		</ffield>
+		<widget page="1" field="Name_Last">
+			<rect y2="419.64" x2="272.76" y1="400.92" x1="30.12" />
+			<apref y="419.64" x="30.12" gennum="0" objnum="100" />
+		</widget>
+		<widget page="1" field="Name_First">
+			<rect y2="391.44" x2="272.76" y1="376.8" x1="30.12" />
+		</widget>
+		<widget page="1" field="Name_Middle">
+			<rect y2="367.2" x2="176.76" y1="352.8" x1="30.12" />
+		</widget>
+		<widget page="1" field="Name_Suffix">
+			<rect y2="371.52" x2="224.76" y1="352.8" x1="186.84" />
+		</widget>
+		<widget page="1" field="Name_Prefix">
+			<rect y2="371.52" x2="272.76" y1="352.8" x1="234.84" />
+		</widget>
+		<widget page="1" field="Telephone_Home">
+			<rect y2="299.4" x2="146.4" y1="280.68" x1="30.12" />
+		</widget>
+		<widget page="1" field="Telephone_Work">
+			<rect y2="299.4" x2="272.76" y1="280.68" x1="156.48" />
+		</widget>
+		<widget page="1" field="SSN">
+			<rect y2="202.56" x2="272.76" y1="183.84" x1="30.12" />
+		</widget>
+		<widget appearance="Off" page="1" field="HIGH SCHOOL DIPLOMA">
+			<rect y2="146.76" x2="36.72" y1="139.44" x1="29.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="Off" y="146.76" x="29.4" gennum="0" objnum="108" />
+			<apref appearance-state="On" y="146.76" x="29.4" gennum="0" objnum="108" />
+			<apref appearance-state="Off" annotation-state="Down" y="146.76" x="29.4" gennum="0" objnum="108" />
+			<apref appearance-state="On" annotation-state="Down" y="146.76" x="29.4" gennum="0" objnum="108" />
+			<captions Normal="n" />
+		</widget>
+		<widget appearance="Off" page="1" field="TRADE CERTIFICATE">
+			<rect y2="134.64" x2="36.72" y1="127.32" x1="29.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="Off" y="134.64" x="29.4" gennum="0" objnum="109" />
+			<apref appearance-state="On" y="134.64" x="29.4" gennum="0" objnum="109" />
+			<apref appearance-state="Off" annotation-state="Down" y="134.64" x="29.4" gennum="0" objnum="109" />
+			<apref appearance-state="On" annotation-state="Down" y="134.64" x="29.4" gennum="0" objnum="109" />
+			<captions Normal="n" />
+		</widget>
+		<widget appearance="Off" page="1" field="COLLEGE NO DEGREE">
+			<rect y2="122.4" x2="36.72" y1="115.2" x1="29.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="Off" y="122.4" x="29.4" gennum="0" objnum="110" />
+			<apref appearance-state="On" y="122.4" x="29.4" gennum="0" objnum="110" />
+			<apref appearance-state="Off" annotation-state="Down" y="122.4" x="29.4" gennum="0" objnum="110" />
+			<apref appearance-state="On" annotation-state="Down" y="122.4" x="29.4" gennum="0" objnum="110" />
+			<captions Normal="n" />
+		</widget>
+		<widget appearance="Off" page="1" field="PHD">
+			<rect y2="61.56" x2="36.72" y1="54.24" x1="29.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="Off" y="61.56" x="29.4" gennum="0" objnum="111" />
+			<apref appearance-state="On" y="61.56" x="29.4" gennum="0" objnum="111" />
+			<apref appearance-state="Off" annotation-state="Down" y="61.56" x="29.4" gennum="0" objnum="111" />
+			<apref appearance-state="On" annotation-state="Down" y="61.56" x="29.4" gennum="0" objnum="111" />
+			<captions Normal="n" />
+		</widget>
+		<widget appearance="Off" page="1" field="OTHER DOCTORATE">
+			<rect y2="49.44" x2="36.72" y1="42.12" x1="29.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="Off" y="49.44" x="29.4" gennum="0" objnum="112" />
+			<apref appearance-state="On" y="49.44" x="29.4" gennum="0" objnum="112" />
+			<apref appearance-state="Off" annotation-state="Down" y="49.44" x="29.4" gennum="0" objnum="112" />
+			<apref appearance-state="On" annotation-state="Down" y="49.44" x="29.4" gennum="0" objnum="112" />
+			<captions Normal="n" />
+		</widget>
+		<widget appearance="Off" page="1" field="ASSOCIATES DEGREE">
+			<rect y2="110.28" x2="72.72" y1="102.96" x1="65.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="Off" y="110.28" x="65.4" gennum="0" objnum="113" />
+			<apref appearance-state="On" y="110.28" x="65.4" gennum="0" objnum="113" />
+			<apref appearance-state="Off" annotation-state="Down" y="110.28" x="65.4" gennum="0" objnum="113" />
+			<apref appearance-state="On" annotation-state="Down" y="110.28" x="65.4" gennum="0" objnum="113" />
+			<captions Normal="n" />
+		</widget>
+		<widget appearance="Off" page="1" field="BACHELORS DEGREE">
+			<rect y2="98.04" x2="72.72" y1="90.72" x1="65.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="On" y="98.04" x="65.4" gennum="0" objnum="114" />
+			<apref appearance-state="Off" annotation-state="Down" y="98.04" x="65.4" gennum="0" objnum="114" />
+			<apref appearance-state="On" annotation-state="Down" y="98.04" x="65.4" gennum="0" objnum="114" />
+			<captions Normal="n" />
+		</widget>
+		<widget appearance="Off" page="1" field="MASTERS DEGREE">
+			<rect y2="85.92" x2="72.72" y1="78.6" x1="65.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="Off" y="85.92" x="65.4" gennum="0" objnum="116" />
+			<apref appearance-state="On" y="85.92" x="65.4" gennum="0" objnum="116" />
+			<apref appearance-state="Off" annotation-state="Down" y="85.92" x="65.4" gennum="0" objnum="116" />
+			<apref appearance-state="On" annotation-state="Down" y="85.92" x="65.4" gennum="0" objnum="116" />
+			<captions Normal="n" />
+		</widget>
+		<widget appearance="Off" page="1" field="PROFESSIONAL DEGREE">
+			<rect y2="73.68" x2="72.72" y1="66.48" x1="65.4" />
+			<appearances>
+				<aappearance name="Off" />
+				<aappearance name="On" />
+			</appearances>
+			<apref appearance-state="Off" y="73.68" x="65.4" gennum="0" objnum="117" />
+			<apref appearance-state="On" y="73.68" x="65.4" gennum="0" objnum="117" />
+			<apref appearance-state="Off" annotation-state="Down" y="73.68" x="65.4" gennum="0" objnum="117" />
+			<apref appearance-state="On" annotation-state="Down" y="73.68" x="65.4" gennum="0" objnum="117" />
+			<captions Normal="n" />
+		</widget>
+		<widget page="1" field="Address_1">
+			<rect y2="419.64" x2="582.12" y1="400.92" x1="339.48" />
+		</widget>
+		<widget page="1" field="Address_2">
+			<rect y2="391.44" x2="582.12" y1="377.28" x1="339.48" />
+		</widget>
+		<widget page="1" field="City">
+			<rect y2="371.52" x2="456.12" y1="352.8" x1="339.36" />
+		</widget>
+		<widget page="1" field="STATE">
+			<rect y2="371.76" x2="486.12" y1="353.04" x1="465.84" />
+		</widget>
+		<widget page="1" field="ZIP">
+			<rect y2="371.76" x2="582.12" y1="353.04" x1="494.52" />
+		</widget>
+		<widget page="1" field="Emergency_Phone">
+			<rect y2="299.4" x2="582" y1="280.68" x1="339.36" />
+		</widget>
+		<widget page="1" field="Emergency_Contact">
+			<rect y2="271.32" x2="455.64" y1="256.44" x1="339.36" />
+		</widget>
+		<widget page="1" field="Emergency_Relationship">
+			<rect y2="275.16" x2="582" y1="256.44" x1="465.72" />
+		</widget>
+		<widget appearance="Off" page="1" field="Sex">
+			<rect y2="197.88" x2="346.44" y1="190.8" x1="339.36" />
+			<border width="0">
+				<color a="0" />
+			</border>
+			<appearances>
+				<aappearance name="MALE" />
+				<aappearance name="Off" />
+			</appearances>
+			<apref appearance-state="MALE" y="197.88" x="339.36" gennum="0" objnum="126" />
+			<apref appearance-state="MALE" annotation-state="Down" y="197.88" x="339.36" gennum="0" objnum="126" />
+			<apref appearance-state="Off" annotation-state="Down" y="197.88" x="339.36" gennum="0" objnum="126" />
+			<captions Normal="l" />
+		</widget>
+		<widget appearance="Off" index="1" page="1" field="Sex">
+			<rect y2="185.64" x2="346.44" y1="178.68" x1="339.36" />
+			<border width="0">
+				<color a="0" />
+			</border>
+			<appearances>
+				<aappearance name="FEMALE" />
+				<aappearance name="Off" />
+			</appearances>
+			<apref appearance-state="FEMALE" y="185.64" x="339.36" gennum="0" objnum="127" />
+			<apref appearance-state="FEMALE" annotation-state="Down" y="185.64" x="339.36" gennum="0" objnum="127" />
+			<apref appearance-state="Off" annotation-state="Down" y="185.64" x="339.36" gennum="0" objnum="127" />
+			<captions Normal="l" />
+		</widget>
+		<widget page="1" field="Birthdate">
+			<rect y2="206.52" x2="507.12" y1="187.8" x1="436.56" />
+		</widget>
+		<widget appearance="_DEFAULT" page="1" field="EMPLOYEE SIGNATURE">
+			<rect y2="102.24" x2="579.037" y1="83.52" x1="338.593" />
+			<appearances>
+				<aappearance name="_DEFAULT">
+					<Normal>data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAApsAAAA0CAYAAADFR/N2AAAACXBIWXMAAB7CAAAewgFu0HU+AAAAnElEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwZh5CAAHCPvQEAAAAAElFTkSuQmCC</Normal>
+				</aappearance>
+			</appearances>
+			<apref y="102.24" x="338.593" gennum="0" objnum="129" />
+		</widget>
+		<widget page="1" field="Print">
+			<rect y2="48.7056" x2="422.374" y1="30.2243" x1="339.786" />
+			<actions>
+				<action trigger="U">
+					<named name="Print" />
+				</action>
+			</actions>
+		</widget>
+	</pdf-info>
+</xfdf>

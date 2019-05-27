@@ -20,6 +20,7 @@ namespace SanityCheck2IOS
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
+            this.Window.TintColor = UIColor.Magenta;
             return true;
         }
 
