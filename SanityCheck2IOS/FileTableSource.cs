@@ -27,7 +27,7 @@ namespace SanityCheck2IOS
         PTToolManager mToolManager;
         public string currentFileName;
         PTPDFViewCtrl mpdfviewctrl;
-        public NamedViewControllerWrapper documentController;
+        public PTDocumentViewController documentController;
 
         private UINavigationController primNav { get; set; }
         public FileTableSource(List<String> fileNames, UINavigationController primNav)
@@ -41,8 +41,8 @@ namespace SanityCheck2IOS
             // Create a PTDocumentViewController
             try
             {
-                documentController = new NamedViewControllerWrapper();
-                documentController.Delegate = new customviewdelegate();
+                documentController = new PTDocumentViewController();
+                documentController.Delegate = new LoadAnnotsViewDelegateWrapper();
 
             }
             catch (Exception e)
@@ -172,7 +172,8 @@ namespace SanityCheck2IOS
             try
             {
                 currentFileName = FileNames[indexPath.Row];
-                documentController.setFileName(currentFileName);
+                LoadAnnotsViewDelegateWrapper del = (LoadAnnotsViewDelegateWrapper)documentController.Delegate;
+                del.fileName = currentFileName;
                 documentController.OpenDocumentWithURL(new NSUrl("http://laptop-ejbj9ok5:8080/" + FileNames[indexPath.Row]));
                 //documentController.opendocument2(new NSUrl("http://laptop-ejbj9ok5:8080/" + FileNames[indexPath.Row]));
             }

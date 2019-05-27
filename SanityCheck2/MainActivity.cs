@@ -59,6 +59,7 @@ namespace SanityCheck2
 
             mPdfViewCtrl = FindViewById<PDFViewCtrl>(Resource.Id.pdfviewctrlfirst);
             AppUtils.SetupPDFViewCtrl(mPdfViewCtrl);
+            mPdfViewCtrl.SetBackgroundColor(Android.Graphics.Color.Pink);
             var httpRequestOptions = new PDFViewCtrl.HTTPRequestOptions();
             httpRequestOptions.RestrictDownloadUsage(false);
 

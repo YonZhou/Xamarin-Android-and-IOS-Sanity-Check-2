@@ -14,19 +14,10 @@ using UIKit;
 
 namespace SanityCheck2IOS
 {
-    public class NamedViewControllerWrapper : pdftron.PDF.Controls.PTDocumentViewController
+    public class LoadAnnotsViewDelegateWrapper : PTDocumentViewControllerDelegate
     {
-        public string currentFileName;
+        public string fileName { get; set; }
 
-        public void setFileName(string s)
-        {
-            this.currentFileName = s;
-
-        }
-    }
-
-    public class customviewdelegate : PTDocumentViewControllerDelegate
-    {
         public override void DidOpenDocument(PTDocumentViewController documentViewController)
         {
             //base.DidOpenDocument(documentViewController);
@@ -36,7 +27,7 @@ namespace SanityCheck2IOS
             PTPDFViewCtrl mpdfviewctrl = documentViewController.PdfViewCtrl;
             PTPDFDoc document = mpdfviewctrl.GetDoc();
 
-            string annotationsFile = Path.GetFileNameWithoutExtension(((NamedViewControllerWrapper)documentViewController).currentFileName) + "_annots.xml";
+            string annotationsFile = Path.GetFileNameWithoutExtension(fileName) + "_annots.xml";
             string annotations = null;
             try
             {
