@@ -1,1 +1,3 @@
  logged nuclear stamp, count at 1
+logged nuclear stamp, count at 2
+logged nuclear stamp, count at 3

@@ -26,18 +26,4 @@
         android:text="PDFTron Sanity Check 2"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click Below to load sample viewer" />
-
-        <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text = "Load Activity"
-        android:textColor="#ff000000"
-        android:id="@+id/loadDocumentButton"/>
-
 </LinearLayout>

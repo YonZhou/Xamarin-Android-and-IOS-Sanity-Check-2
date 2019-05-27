@@ -43,17 +43,19 @@ namespace SanityCheck2
             SetContentView(Resource.Layout.activity_main);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(true);
 
             //FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
             //fab.Click += FabOnClick;
 
-            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
-            drawer.AddDrawerListener(toggle);
-            toggle.SyncState();
+            //DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
+            //drawer.AddDrawerListener(toggle);
+            //toggle.SyncState();
 
-            NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-            navigationView.SetNavigationItemSelectedListener(this);
+            //NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            //navigationView.SetNavigationItemSelectedListener(this);
 
             // pdfviewctrl stuff
 
@@ -221,42 +223,39 @@ namespace SanityCheck2
             base.OnStart();
 
         }
-        public override void OnBackPressed()
+        //public override void OnBackPressed()
+        //{
+        //    DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+        //    if (drawer.IsDrawerOpen(GravityCompat.Start))
+        //    {
+        //        drawer.CloseDrawer(GravityCompat.Start);
+        //    }
+        //    else
+        //    {
+        //        base.OnBackPressed();
+        //    }
+        //}
+
+        public override bool OnSupportNavigateUp()
         {
-            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if (drawer.IsDrawerOpen(GravityCompat.Start))
-            {
-                drawer.CloseDrawer(GravityCompat.Start);
-            }
-            else
-            {
-                base.OnBackPressed();
-            }
+            OnBackPressed();
+            return true;
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.menu_main, menu);
-            Button button = FindViewById<Button>(Resource.Id.loadDocumentButton);
-            button.Click += delegate
-            {
-                // setup for documentviewer activity, integrates pdfviewctrl configurations
-                var pdfviewctrlconfig = PDFViewCtrlConfig.GetDefaultConfig(this)
-                    .SetUrlExtraction(true);
+            //Button button = FindViewById<Button>(Resource.Id.loadDocumentButton);
+            //button.Click += delegate
+            //{
 
-                var config = new pdftron.PDF.Config.ViewerConfig.Builder()
-                .OpenUrlCachePath(this.CacheDir.AbsolutePath)
-                    .PdfViewCtrlConfig(pdfviewctrlconfig)
-                    .ShowOpenFileOption(true)
-                    .ShowOpenUrlOption(true)
-                .Build();
 
-                //pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, Resource.Raw.test);
+            //    //    //pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, Resource.Raw.test);
 
-                var fileLink = Android.Net.Uri.Parse("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf");
-                pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, fileLink, config);
-            };
-
+            //    //    var fileLink = Android.Net.Uri.Parse("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf");
+            //    //    pdftron.PDF.Controls.DocumentActivity.OpenDocument(this, fileLink, config);
+            //    //};
+            //}
             return true;
         }
 
